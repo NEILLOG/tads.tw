@@ -1,0 +1,203 @@
+@model TADS_Web.Models.VM_News
+
+@section CustomScripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Search_sTime").daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: false,
+                locale: { format: 'YYYY-MM-DD', cancelLabel: '清除' }
+            });
+            $("#Search_sTime").on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD'));
+            });
+            $("#Search_sTime").on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+            });
+
+            $("#Search_eTime").daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: false,
+                locale: { format: 'YYYY-MM-DD', cancelLabel: '清除' }
+            });
+            $("#Search_eTime").on('apply.daterangepicker', function (ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD'));
+            });
+            $("#Search_eTime").on('cancel.daterangepicker', function (ev, picker) {
+                $(this).val('');
+            });
+        });
+
+        function clearSearch() {
+            document.getElementById("Search_sCategory").selectedIndex = 0;
+            $('#Search_sTitle').val('');
+            $('#Search_sTime').val('');
+            $('#Search_eTime').val('');
+        }
+
+        function Delete(id) {
+            Swal.fire({
+                title: '提示訊息',
+                text: '你是否要刪除消息？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '刪除',
+                cancelButtonText: '取消',
+            }).then((r) => {
+                if (r.isConfirmed) {
+                    $.ajax({
+                        type: "Post",
+                        url: "@(Url.Action("NewsDelete", "News"))",
+                        dataType: "json",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+                        },
+                        data: { id: id },
+                        success: function (result) {
+                            inform({
+                                plugin: result.alert_plugin,
+                                type: result.alert_type,
+                                title: result.message,
+                                content: result.messageDetail,
+                                redirect_url: ""
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire('刪除', '取消成功', 'success');
+                }
+            });
+        }
+
+        function PublishChange(id) {
+            Swal.fire({
+                title: '提示訊息',
+                text: '是否變更上下架狀態？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+            }).then((r) => {
+                if (r.isConfirmed) {
+                    $.ajax({
+                        type: "Post",
+                        url: "@(Url.Action("NewsPublishChange", "News"))",
+                        dataType: "json",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+                        },
+                        data: { id: id },
+                        success: function (result) {
+                            inform({
+                                plugin: result.alert_plugin,
+                                type: result.alert_type,
+                                title: result.message,
+                                content: result.messageDetail,
+                                redirect_url: ""
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire('變更狀態', '取消成功', 'success');
+                }
+            });
+        }
+    </script>
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <form id="frm" method="get" asp-controller="News" asp-action="NewsList" autocomplete="off">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_iPageIndex, new { @class = "hiddenCurrentPage" })
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_iPageCount, new { @class = "hiddenPageCount" })
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_Search, new { @class = "pager-Info-Search" })
+
+                    <div class="row g-3 mb-3 align-items-end">
+                        <div class="col-12 col-md-auto">
+                            <div class="input-group">
+                                @Html.LabelFor(x => x.Search.sCategory, "類型", new { @class = "input-group-text" })
+                                @Html.DropDownListFor(x => x.Search.sCategory, Model.ddlCategory, new { @class = "form-control" })
+
+                                @Html.LabelFor(x => x.Search.sTitle, "標題", new { @class = "input-group-text" })
+                                @Html.TextBoxFor(x => x.Search.sTitle, new { @class = "form-control", placeholder = "請輸入標題", type = "text" })
+
+                                @Html.LabelFor(x => x.Search.sTime, "時間區間", new { @class = "input-group-text" })
+                                @Html.TextBoxFor(x => x.Search.sTime, new { @class = "form-control", placeholder = "時間起", type = "text", id = "Search_sTime" })
+                                @Html.TextBoxFor(x => x.Search.eTime, new { @class = "form-control", placeholder = "時間迄", type = "text", id = "Search_eTime" })
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <button type="button" class="btn btn-danger" onclick="clearSearch()">清除</button>
+                            <button type="submit" class="btn btn-primary">查詢</button>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 align-items-end mb-3">
+                        <div class="col-12 col-md-auto ms-auto">
+                            <a class="btn btn-primary" href="@(Url.Action("NewsAdd", "News"))">新增</a>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>項次</th>
+                                <th>標題</th>
+                                <th>類型</th>
+                                <th>日期</th>
+                                <th>狀態</th>
+                                <th>管理</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.NewsExtendList != null && Model.NewsExtendList.Count > 0)
+                            {
+                                foreach (var item in Model.NewsExtendList)
+                                {
+                                    string status = item.News.IsPublish ? "上架中" : "已下架";
+                                    string buttonInfo = item.News.IsPublish ? "下架" : "上架";
+                                    <tr>
+                                        <td>@(Model.NewsExtendList.IndexOf(item) + 1)</td>
+                                        <td>@item.News.Title</td>
+                                        <td>@item.News.Category</td>
+                                        <td>@item.News.DisplayDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@status</td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm" href="@(Url.Action("NewsEdit", "News", new { id = item.News.Id }))">編輯</a>
+                                            @if (buttonInfo == "上架")
+                                            {
+                                                <button type="button" class="btn btn-success btn-sm" onclick="PublishChange('@item.News.Id')">上架</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-outline-success btn-sm" onclick="PublishChange('@item.News.Id')">下架</button>
+                                            }
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="Delete('@item.News.Id')">刪除</button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="6">目前暫無資料</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @if (Model != null && Model.NewsExtendList != null && Model.NewsExtendList.Count > 0)
+                {
+                    @await Html.PartialAsync("_Pagination", Model.Search.PagerInfo)
+                }
+            </div>
+        </div>
+    </div>
+</div>

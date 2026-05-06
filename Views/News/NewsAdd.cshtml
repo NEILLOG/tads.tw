@@ -1,0 +1,79 @@
+@model TADS_Web.Models.VM_News
+
+@section CustomScripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#NewsExtendItem_News_DisplayDate').daterangepicker({
+                singleDatePicker: true,
+                locale: { format: 'YYYY-MM-DD' }
+            });
+        });
+    </script>
+}
+
+<div class="card">
+    <div class="card-body">
+        <form id="frm" method="post" asp-controller="News" asp-action="NewsAdd" autocomplete="off" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="row">
+
+                @if (Model.TopId.Count > 0)
+                {
+                    <div class="col-12 form-group mb-3">
+                        @Html.LabelFor(x => x.NewsExtendItem.News.IsKeepTop, "是否置頂", new { @class = "form-label" })
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, true, new { @id = "KeepTopYes", disabled = "disabled" }) 是
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, false, new { @id = "KeepTopNo", disabled = "disabled", @checked = "checked" }) 否
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12 form-group mb-3">
+                        @Html.LabelFor(x => x.NewsExtendItem.News.IsKeepTop, "是否置頂", new { @class = "form-label" })
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, true, new { @id = "KeepTopYes" }) 是
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, false, new { @id = "KeepTopNo", @checked = "checked" }) 否
+                    </div>
+                }
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.isPublish, "狀態", new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.isPublish, Model.ddlPublish, new { @class = "form-control", id = "ddlPublish" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.Title, "標題：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.NewsExtendItem.News.Title, new { @class = "form-control", placeholder = "請輸入標題" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.Category, "類型", new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.NewsExtendItem.News.Category, Model.ddlCategory, new { @class = "form-control", id = "ddlCategory" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.DisplayDate, "日期", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.NewsExtendItem.News.DisplayDate, new { @class = "form-control", placeholder = "年/月/日" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.Contents, "內容", new { @class = "form-label" })
+                    @Html.TextAreaFor(x => x.NewsExtendItem.News.Contents, new { @class = "form-control", rows = "6" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.NewsExtendItem.News.FileId, "上傳圖片：", new { @class = "form-label" })
+                    <input type="file" name="NewsFile" class="form-control" accept=".png,.jpg,.jpeg" />
+                    @Html.HiddenFor(x => x.NewsExtendItem.News.FileId, new { @id = "FileId" })
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">儲存</button>
+                    <a class="btn btn-light" href="@(Url.Action("NewsList", "News"))">取消</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

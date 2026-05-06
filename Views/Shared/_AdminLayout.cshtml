@@ -1,0 +1,94 @@
+@using TADS_Web.Models.Enums
+@using TADS_Web.Extensions
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>後台管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    @await RenderSectionAsync("CustomCss", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">後台管理</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="@Url.Action("NewsList", "News")">消息管理</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        Swal = Swal.mixin({ confirmButtonText: '確認' });
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+        const inform = (optional_setting) => {
+            let default_setting = {
+                plugin: 'swal',
+                type: 'success',
+                title: null,
+                content: null,
+                redirect_url: null,
+                duration: 5000,
+            };
+            let setting = $.extend({}, default_setting, optional_setting);
+            setting.content = setting.content ?? '';
+            if (setting.title != null) {
+                switch (setting.plugin) {
+                    case 'swal':
+                        Swal.fire(setting.title, setting.content, setting.type)
+                            .then((result) => {
+                                if (setting.redirect_url !== null) {
+                                    location.href = setting.redirect_url;
+                                }
+                            });
+                        break;
+                }
+            }
+            if (setting.redirect_url !== null) {
+                setTimeout(() => { location.href = setting.redirect_url; }, setting.duration);
+            }
+        };
+    </script>
+
+    @if (TempData["TempMsg"] != null)
+    {
+        string msgType = "info";
+        if (TempData["TempMsgType"] != null)
+        {
+            switch ((MsgTypeEnum)TempData["TempMsgType"]!)
+            {
+                case MsgTypeEnum.error: msgType = "error"; break;
+                case MsgTypeEnum.info: msgType = "info"; break;
+                case MsgTypeEnum.success: msgType = "success"; break;
+                case MsgTypeEnum.warning: msgType = "warning"; break;
+            }
+        }
+        <script>
+            $(document).ready(function () {
+                Swal.fire({
+                    title: '@Html.Raw(TempData["TempMsg"])',
+                    text: '@Html.Raw(TempData["TempMsgDetail"] ?? "")',
+                    icon: '@msgType'
+                });
+            });
+        </script>
+    }
+
+    @await RenderSectionAsync("CustomScripts", required: false)
+    @Html.RenderPartialSectionScriptsAsync()
+</body>
+</html>
