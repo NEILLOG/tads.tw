@@ -62,6 +62,19 @@
         .font-noto-sans     { font-family: "Noto Sans", sans-serif; }      /* 取代 Noto Sans Gothic */
         .font-noto-sans-tc  { font-family: "Noto Sans TC", sans-serif; }   /* 思源黑體 */
         .font-noto-serif-tc { font-family: "Noto Serif TC", serif; }       /* 思源明體 */
+
+        /* 英文套 Merriweather、中文套 Noto Serif TC */
+        @@font-face {
+            font-family: "MixedSerif";
+            src: local("Merriweather");
+            unicode-range: U+0000-U+024F;   /* Basic Latin + Latin Extended */
+        }
+        @@font-face {
+            font-family: "MixedSerif";
+            src: local("Noto Serif TC");
+            unicode-range: U+2E80-U+2EFF, U+3000-U+9FFF, U+F900-U+FAFF, U+FE10-U+FE1F, U+FE30-U+FE4F;   /* CJK */
+        }
+        .font-mixed-serif { font-family: "MixedSerif", "Noto Serif TC", "Merriweather", serif; }
     </style>
 
 </head>
