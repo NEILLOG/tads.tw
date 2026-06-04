@@ -13,3 +13,6 @@ publish/
 
 ## Environment
 appsettings.Development.json
+
+## Vendor/Resources
+startbootstrap-sb-admin-2-gh-pages/

@@ -4,91 +4,39 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>後台管理</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] ?? "後台管理"</title>
+
+    <link href="~/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <link href="~/admin/css/sb-admin-2.min.css" rel="stylesheet" />
+
     @await RenderSectionAsync("CustomCss", required: false)
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">後台管理</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="@Url.Action("NewsList", "News")">消息管理</a>
+<body id="page-top">
+    <div id="wrapper">
+        @await Html.PartialAsync("~/Views/Shared/Admin/_Sidebar.cshtml")
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                @await Html.PartialAsync("~/Views/Shared/Admin/_Topbar.cshtml")
+
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
             </div>
+
+            @await Html.PartialAsync("~/Views/Shared/Admin/_Footer.cshtml")
         </div>
-    </nav>
-    <div class="container-fluid">
-        @RenderBody()
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script>
-        Swal = Swal.mixin({ confirmButtonText: '確認' });
-    </script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="~/admin/vendor/jquery/jquery.min.js"></script>
+    <script src="~/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/admin/js/sb-admin-2.min.js"></script>
 
-    <script>
-        const inform = (optional_setting) => {
-            let default_setting = {
-                plugin: 'swal',
-                type: 'success',
-                title: null,
-                content: null,
-                redirect_url: null,
-                duration: 5000,
-            };
-            let setting = $.extend({}, default_setting, optional_setting);
-            setting.content = setting.content ?? '';
-            if (setting.title != null) {
-                switch (setting.plugin) {
-                    case 'swal':
-                        Swal.fire(setting.title, setting.content, setting.type)
-                            .then((result) => {
-                                if (setting.redirect_url !== null) {
-                                    location.href = setting.redirect_url;
-                                }
-                            });
-                        break;
-                }
-            }
-            if (setting.redirect_url !== null) {
-                setTimeout(() => { location.href = setting.redirect_url; }, setting.duration);
-            }
-        };
-    </script>
-
-    @if (TempData["TempMsg"] != null)
-    {
-        string msgType = "info";
-        if (TempData["TempMsgType"] != null)
-        {
-            switch ((MsgTypeEnum)TempData["TempMsgType"]!)
-            {
-                case MsgTypeEnum.error: msgType = "error"; break;
-                case MsgTypeEnum.info: msgType = "info"; break;
-                case MsgTypeEnum.success: msgType = "success"; break;
-                case MsgTypeEnum.warning: msgType = "warning"; break;
-            }
-        }
-        <script>
-            $(document).ready(function () {
-                Swal.fire({
-                    title: '@Html.Raw(TempData["TempMsg"])',
-                    text: '@Html.Raw(TempData["TempMsgDetail"] ?? "")',
-                    icon: '@msgType'
-                });
-            });
-        </script>
-    }
-
-    @await RenderSectionAsync("CustomScripts", required: false)
-    @Html.RenderPartialSectionScriptsAsync()
+    @RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

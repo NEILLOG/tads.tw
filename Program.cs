@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 // Database
 builder.Services.AddDbContext<DBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // HTTP Context Accessor
 builder.Services.AddHttpContextAccessor();
