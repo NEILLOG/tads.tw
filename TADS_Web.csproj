@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Keep the reference template and TADS source materials out of the build/publish output -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);template\**;tads-materials\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
