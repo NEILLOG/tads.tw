@@ -15,6 +15,7 @@ namespace TADS_Web.Models.DB
         public virtual DbSet<TbLoginRecord> TbLoginRecord { get; set; } = null!;
         public virtual DbSet<TbApiLog> TbApiLog { get; set; } = null!;
         public virtual DbSet<TbBackendOperateLog> TbBackendOperateLog { get; set; } = null!;
+        public virtual DbSet<TbUser> TbUser { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -87,6 +88,16 @@ namespace TADS_Web.Models.DB
                 entity.Property(e => e.Ip).HasMaxLength(50).HasColumnName("IP");
                 entity.Property(e => e.UserAgent).HasMaxLength(500);
                 entity.Property(e => e.UserId).HasMaxLength(10).HasColumnName("UserID");
+            });
+
+            modelBuilder.Entity<TbUser>(entity =>
+            {
+                entity.HasKey(e => e.Pid).HasName("PK_TbUser");
+                entity.Property(e => e.Pid).HasColumnName("PID");
+                entity.Property(e => e.Account).HasMaxLength(50);
+                entity.Property(e => e.Password).HasMaxLength(100);
+                entity.Property(e => e.UserName).HasMaxLength(50);
+                entity.HasIndex(e => e.Account).IsUnique();
             });
         }
     }

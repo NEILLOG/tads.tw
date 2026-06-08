@@ -5,7 +5,7 @@
       "name": ".NET Core Launch (web)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "kill-and-build",
+      "preLaunchTask": "build",
       "program": "${workspaceFolder}/bin/Debug/net8.0/TADS_Web.dll",
       "args": [],
       "cwd": "${workspaceFolder}",

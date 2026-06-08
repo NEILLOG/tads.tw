@@ -2,13 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "kill-and-build",
-      "type": "shell",
-      "command": "lsof -ti :7010,:5022 | xargs kill -9 2>/dev/null; sleep 1; dotnet build '${workspaceFolder}/TADS_Web.csproj' /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary",
-      "presentation": { "reveal": "always", "panel": "shared" },
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": "build",
       "command": "dotnet",
       "type": "process",
@@ -17,30 +10,6 @@
         "${workspaceFolder}/TADS_Web.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "publish",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "publish",
-        "${workspaceFolder}/TADS_Web.csproj",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "watch",
-      "command": "dotnet",
-      "type": "process",
-      "args": [
-        "watch",
-        "run",
-        "--project",
-        "${workspaceFolder}/TADS_Web.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

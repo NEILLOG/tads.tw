@@ -32,8 +32,19 @@ builder.Services.AddScoped<AllCommonService>();
 builder.Services.AddScoped<CommonService>();
 builder.Services.AddScoped<NewsService>();
 builder.Services.AddScoped<FileService>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
+
+// 套用 migration 並建立預設管理員帳號
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DBContext>();
+    db.Database.Migrate();
+
+    var userService = scope.ServiceProvider.GetRequiredService<UserService>();
+    await userService.EnsureDefaultUser("admin", "admin123", "系統管理員");
+}
 
 if (!app.Environment.IsDevelopment())
 {

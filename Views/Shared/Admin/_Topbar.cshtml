@@ -1,5 +1,8 @@
+@using TADS_Web.Models
+@using TADS_Web.Extensions
 @{
-    var userName = User.Identity?.Name ?? "Admin";
+    var userInfo = Context.Session.Get<UserSessionModel>(SessionStruct.Login.UserInfo);
+    var userName = userInfo?.UserName ?? "Admin";
 }
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -170,9 +173,9 @@
                     Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="@Url.Action("Logout", "Sdatback")">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    登出
                 </a>
             </div>
         </li>
