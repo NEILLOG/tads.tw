@@ -1,0 +1,791 @@
+@{
+    Layout = "_LayoutInner";
+    ViewData["Title"] = "About 關於我們";
+    ViewData["PageTitle"] = "About 關於我們";
+    ViewData["BreadcrumbCurrent"] = "About 關於我們";
+}
+
+<section class="section section-default section-no-border my-0">
+    <div class="container pt-3 pb-4">
+
+        <!-- Introduce 標題 -->
+        <div class="row">
+            <div class="col-12">
+                <div class="">
+                    <h1 class="font-merriweather font-italic mb-0" style="font-weight: 700;">Introduce</h1>
+                    <div class="divider divider-primary divider-small mt-2 mb-4">
+                        <hr class="my-0 me-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 學會名稱 -->
+        <div class="row">
+            <div class="col-12">
+                <div class="">
+                    <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-1">台灣發展研究學會</h4>
+                    <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-0">Taiwanese Association for Development Studies, TADS</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左：簡介 + 圖片　右：詳細內文 -->
+        <div class="row mt-4">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="">
+                    <p class="font-noto-sans-tc font-weight-bold text-dark text-3-5" style="line-height: 1.7em;">
+                        發展研究（development studies），起初以國家為主的經濟發展考量，近年來逐漸轉移到個人、社區、參與以及平等，強調發展是要符合人民需要、與環境和平共處。為實現發展的永續性，除借鑑前人的經驗更需結合現今資源網絡，我們期許能夠找到一條可以實現永續的發展道路。
+                    </p>
+                    <img src="~/img/about_fig.jpg" class="w-100 d-block mt-4" alt="台灣發展研究學會" />
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="font-noto-sans-tc text-dark" style="line-height: 1.9em;">
+                    <p>
+                        發展研究是全球化浪潮中受到矚目的重要議題之一，而作為「發展研究」學者交流管道，「台灣發展研究學會」（Taiwanese Association for Development Studies, TADS）於2013年在國立政治大學國家發展研究所成立，成為全台灣第一個發展研究的全國性學術社團，並由政治大學前副校長、國家發展研究所講座教授王振寰當選創會理事長。台灣發展研究年會從2009年至今每年舉辦不間斷集合各相關領域學者，如此廣泛而多元的組成，使台灣發展研究學會已成為具規模的新興學術社群。
+                    </p>
+                    <p>
+                        在王理事長就任期間，不僅成功讓「發展研究」在2017年9月被教育部承認為「中華民國學科標準分類」的單獨細學類，更出版了台灣首本發展研究的專書—發展研究與當代臺灣社會（Development Studies and Contemporary Taiwan Society）。自2017年開始，前理事長湯京平老師、前理事長簡旭伸老師及前理事長陳良治老師也在這樣的成果下，持續透過年度會議，深入探討發展研究相關議題，積極建立國際網絡，開拓臺灣學界在國際發展研究中的影響力。
+                    </p>
+                    <p>
+                        早於學會成立之前，2009年第一屆發展研究年會就已經在政治大學國家發展研究所舉辦。歷年來分別由國立台灣大學建築與城鄉研究所、元智大學社會暨政策科學學系、國立臺灣大學國家發展研究所、國立政治大學國家發展研究所、國立東華大學原住民民族學院、國立臺灣大學地理環境資源學系、淡江大學未來學研究所以及佛光大學未來與樂活產業學系籌辦歷年的發展研究年會。歷年的年會均有百餘篇學術研究發表，累積眾多國內發展研究成果，形成極具規模的新興學術群體。
+                    </p>
+                    <p class="mb-0">
+                        因此，台灣發展研究學會與年會期盼建立跨學科、跨領域的學術交流平台，進而激發國內學界探索國際間亟需關注的發展議題，分享研究成果，並提出解決的方案。期望各界的持續熱情參與，促使發展研究社群日益壯大，也能夠在理論和實務上對社會發展有所貢獻！
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Organizational Chart 組織圖 -->
+<style>
+    .org-chart-lightbox {
+        cursor: zoom-in;
+        transition: opacity .2s ease;
+    }
+    /* 透明背景組織圖在燈箱中加白底 */
+    .mfp-org-chart .mfp-img {
+        background-color: #fff;
+        padding: 30px;
+        box-sizing: border-box;
+        border-radius: 4px;
+    }
+    .org-chart-lightbox:hover {
+        opacity: 0.85;
+    }
+    .org-accordion {
+        margin-bottom: 22px;
+    }
+    .org-acc-input {
+        display: none;
+    }
+    .org-acc-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+    .org-acc-icon {
+        flex: 0 0 auto;
+        width: 30px;
+        height: 30px;
+        margin-right: 14px;
+        background-color: var(--primary, #b89968);
+        border-radius: 3px;
+        position: relative;
+    }
+    .org-acc-icon::before,
+    .org-acc-icon::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        background-color: #fff;
+        transform: translate(-50%, -50%);
+    }
+    .org-acc-icon::before {
+        width: 14px;
+        height: 2px;
+    }
+    .org-acc-icon::after {
+        width: 2px;
+        height: 14px;
+        transition: transform .2s ease;
+    }
+    /* 展開時 + 變 - */
+    .org-acc-input:checked + .org-acc-label .org-acc-icon::after {
+        transform: translate(-50%, -50%) scaleY(0);
+    }
+    .org-acc-title {
+        font-weight: 700;
+        color: #212529;
+        font-size: 1.15rem;
+    }
+    .org-acc-content {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: max-height .3s ease, opacity .3s ease;
+        padding-left: 44px;
+    }
+    .org-acc-input:checked ~ .org-acc-content {
+        max-height: 3000px;
+        opacity: 1;
+        margin-top: 18px;
+    }
+    .org-role {
+        margin-bottom: 18px;
+    }
+    .org-role-title {
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 2px;
+    }
+    .org-role-note {
+        font-weight: 400;
+        font-size: 0.95rem;
+    }
+    .org-role-name {
+        color: #6c757d;
+        margin-bottom: 0;
+        line-height: 1.7em;
+    }
+</style>
+<section class="section section-default section-no-border my-0" style="padding-top: 0;">
+    <div class="container pt-0 pb-4">
+
+        <!-- 區塊標題 -->
+        <div class="row">
+            <div class="col-12">
+                <div class="">
+                    <h1 class="font-merriweather font-italic mb-0" style="font-weight: 700;">Organizational Chart</h1>
+                    <div class="divider divider-primary divider-small mt-2 mb-4">
+                        <hr class="my-0 me-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- 左：組織結構圖 -->
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="">
+                    <a href="~/img/Organizational_Structure.png" class="d-block org-chart-lightbox"
+                       data-plugin-lightbox data-plugin-options='{"type":"image","mainClass":"mfp-org-chart"}'
+                       title="台灣發展研究學會組織圖">
+                        <img src="~/img/Organizational_Structure.png" class="w-100 d-block" alt="台灣發展研究學會組織圖" />
+                    </a>
+                </div>
+            </div>
+
+            <!-- 右：理監事名單 -->
+            <div class="col-lg-6">
+                <div class="font-noto-serif-tc">
+
+                    <!-- 第七屆理監事名單 -->
+                    <div class="org-accordion">
+                        <input type="checkbox" id="org-board-7" class="org-acc-input" checked>
+                        <label for="org-board-7" class="org-acc-label">
+                            <span class="org-acc-icon"></span>
+                            <span class="org-acc-title">第七屆理監事名單 List of the 7th Board Members</span>
+                        </label>
+                        <div class="org-acc-content">
+                            <div class="org-role">
+                                <p class="org-role-title">理事長 President：</p>
+                                <p class="org-role-name">張國暉</p>
+                            </div>
+                            <div class="org-role">
+                                <p class="org-role-title">副理事長 Vice President：</p>
+                                <p class="org-role-name">游尚儒</p>
+                            </div>
+                            <div class="org-role">
+                                <p class="org-role-title">常務理事 Executive Directors<br><span class="org-role-note">(依筆劃順序排序 / Listed by stroke count)：</span></p>
+                                <p class="org-role-name">何浩慈、周嘉辰、張國暉、游尚儒</p>
+                            </div>
+                            <div class="org-role">
+                                <p class="org-role-title">理事 Directors<br><span class="org-role-note">(依筆劃順序排序 / Listed by stroke count)：</span></p>
+                                <p class="org-role-name">何浩慈、周嘉辰、林木興、林義鈞、林政逸、邱啟新、張國暉、郭益昌、游尚儒、曾聖文、黃兆年、劉秋婉、鄭安廷、蘇昱璇</p>
+                            </div>
+                            <div class="org-role">
+                                <p class="org-role-title">常務監事 Executive Supervisor：</p>
+                                <p class="org-role-name">魏玫娟</p>
+                            </div>
+                            <div class="org-role">
+                                <p class="org-role-title">監事 Supervisors<br><span class="org-role-note">(依筆劃順序排序 / Listed by stroke count)：</span></p>
+                                <p class="org-role-name">周桂田、陳良治、湯京平、簡旭伸、魏玫娟</p>
+                            </div>
+                            <div class="org-role">
+                                <p class="org-role-title">秘書長 Secretary-General：</p>
+                                <p class="org-role-name">林竣達</p>
+                            </div>
+                            <div class="org-role">
+                                <p class="org-role-title">執行秘書 Executive Secretary：</p>
+                                <p class="org-role-name">王曉珩</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 歷屆理監事名單 -->
+                    <div class="org-accordion">
+                        <input type="checkbox" id="org-board-past" class="org-acc-input">
+                        <label for="org-board-past" class="org-acc-label">
+                            <span class="org-acc-icon"></span>
+                            <span class="org-acc-title">歷屆理監事名單 List of Past Board</span>
+                        </label>
+                        <div class="org-acc-content">
+                            <div class="d-flex align-items-center flex-wrap gap-3 mt-2">
+                                <span class="org-role-name mb-0">下載歷屆理監事名單</span>
+                                <a href="https://drive.google.com/file/d/1iRwgpYdpH6AoOImzK4EcRxpdevo7lnWJ/view"
+                                   target="_blank" rel="noopener noreferrer"
+                                   class="btn btn-primary btn-modern font-noto-serif-tc font-weight-bold">
+                                    Download 下載
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Membership Application 入會申請 -->
+<section class="section section-default section-no-border my-0" style="padding-top: 0;">
+    <div class="container pt-0 pb-4">
+
+        <!-- 區塊標題 -->
+        <div class="row">
+            <div class="col-12">
+                <div class="">
+                    <h1 class="font-merriweather font-italic mb-0" style="font-weight: 700;">Membership Application</h1>
+                    <div class="divider divider-primary divider-small mt-2 mb-4">
+                        <hr class="my-0 me-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 入會申請小標 -->
+        <div class="row">
+            <div class="col-12">
+                <div class="">
+                    <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-1">入會申請</h4>
+                    <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-0">Join the membership of TADS</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左：中文邀請　右：英文邀請 -->
+        <div class="row mt-4">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="">
+                    <p class="font-noto-sans-tc font-weight-bold text-dark text-3-5 mb-0" style="line-height: 1.9em;">
+                        誠摯邀請您加入「台灣發展研究學會（TADS）」！本會致力於推動國內外發展議題的學術對話與政策實踐。成為會員後，您將能優先參與年度研討會、掌握最新研究動態，並與跨領域的頂尖學者及實務工作者建立緊密的專業網絡。無論您是學者、學生或關注發展議題的專業人士，我們都歡迎您攜手共進，為全球永續發展貢獻心力。立即申請入會，擴大您的學術與社會影響力！
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="">
+                    <p class="font-noto-sans text-dark mb-0" style="line-height: 1.9em;">
+                        We cordially invite you to join the Taiwanese Association for Development Studies (TADS)! As Taiwan's first national academic society dedicated to development studies, our vision has expanded from macroeconomic perspectives to the sustainable coexistence of individuals, communities, and the environment. TADS serves as a premier cross-disciplinary platform, connecting leading scholars and practitioners through our benchmark annual conferences. Whether you are focused on pioneering theory or local practice, we welcome you to join us in inspiring innovative solutions, building international networks, and contributing to the sustainable development of contemporary society!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Membership Fees 會費價格表 -->
+<style>
+    .fee-pricing .fee-col {
+        margin-bottom: 24px;
+    }
+    .fee-plan {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: #fff;
+        text-align: center;
+    }
+    /* 第一層：分類帶（固定高度，內容置中對齊） */
+    .fee-cat {
+        padding: 12px 10px;
+        color: #fff;
+        min-height: 92px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .fee-cat .fee-cat-tc {
+        font-size: 0.95rem;
+        font-weight: 700;
+        line-height: 1.4em;
+    }
+    .fee-cat .fee-cat-en {
+        font-size: 0.8rem;
+        line-height: 1.3em;
+        opacity: 0.95;
+    }
+    /* 第二層：會員別色帶（固定高度，內容置中對齊） */
+    .fee-type {
+        padding: 12px 10px;
+        color: #fff;
+        min-height: 108px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .fee-type .fee-type-tc {
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.3em;
+    }
+    .fee-type .fee-type-en {
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1.3em;
+    }
+    /* 第三層：價格區（淺灰底，固定高度使金額/單位橫向對齊） */
+    .fee-price {
+        background-color: #e3e3e3;
+        padding: 20px 10px;
+        min-height: 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    /* 入會費卡無會員別帶，灰區延伸補足（108px 帶 + 160px 價格），內容整體垂直置中 */
+    .fee-price--tall {
+        min-height: 268px;
+    }
+    .fee-price .fee-amount {
+        font-size: 1.9rem;
+        font-weight: 800;
+        color: #1a1a1a;
+        line-height: 1em;
+        letter-spacing: -0.5px;
+    }
+    .fee-price .fee-amount .fee-unit {
+        font-size: 1.1rem;
+        font-weight: 700;
+        vertical-align: baseline;
+        margin-right: 1px;
+    }
+    .fee-price .fee-period {
+        margin-top: 12px;
+        margin-bottom: 0;
+        font-size: 0.78rem;
+        letter-spacing: 0.04em;
+        color: #8a8a8a;
+        line-height: 1.5em;
+    }
+    /* 第四層：說明 */
+    .fee-desc {
+        padding: 22px 20px 26px;
+        text-align: left;
+        flex: 1 1 auto;
+    }
+    .fee-desc p {
+        font-size: 0.9rem;
+        line-height: 1.7em;
+        color: #555;
+        margin-bottom: 1em;
+    }
+    .fee-desc p:last-child {
+        margin-bottom: 0;
+    }
+    .fee-desc .fee-desc-tc {
+        color: #333;
+        font-weight: 700;
+    }
+    /* 6 欄一排（≥1200px） */
+    @@media (min-width: 1200px) {
+        .fee-pricing .fee-col {
+            flex: 0 0 auto;
+            width: 16.666667%;
+        }
+    }
+</style>
+
+<section class="section section-default section-no-border my-0" style="padding-top: 0;">
+    <div class="container pt-0 pb-4">
+
+        <div class="fee-pricing row font-noto-sans-tc">
+
+            <!-- 入會費 -->
+            <div class="fee-col col-6 col-md-4">
+                <div class="fee-plan">
+                    <div class="fee-cat" style="background-color: #1a1a1a;">
+                        <div class="fee-cat-tc">入會費</div>
+                        <div class="fee-cat-en font-noto-sans">Initiation Fee</div>
+                    </div>
+                    <div class="fee-price fee-price--tall">
+                        <div class="fee-amount"><span class="fee-unit">NTD$</span>100</div>
+                        <p class="fee-period font-noto-sans">PER PERSON<br>OR<br>ORGANIZATION</p>
+                    </div>
+                    <div class="fee-desc">
+                        <p>若在入會首年繳交常年會費者免繳入會費。</p>
+                        <p class="font-noto-sans">The initiation fee is waived if the annual membership fee is paid in the first year of joining.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 個人會員 -->
+            <div class="fee-col col-6 col-md-4">
+                <div class="fee-plan">
+                    <div class="fee-cat" style="background-color: #1a1a1a;">
+                        <div class="fee-cat-tc">年度會費</div>
+                        <div class="fee-cat-en font-noto-sans">Annual Membership Fees</div>
+                    </div>
+                    <div class="fee-type" style="background-color: #b8986a;">
+                        <div class="fee-type-tc">個人會員</div>
+                        <div class="fee-type-en font-noto-sans">Individual Member</div>
+                    </div>
+                    <div class="fee-price">
+                        <div class="fee-amount"><span class="fee-unit">NTD$</span>1,000</div>
+                        <p class="fee-period font-noto-sans">PER PERSON / YEAR</p>
+                    </div>
+                    <div class="fee-desc">
+                        <p>以發展研究及相關學科之教學或研究為主要職業，或各大學相關系所博士候選人。</p>
+                        <p class="font-noto-sans">Professionals primarily engaged in teaching or research in development studies and related disciplines, or Ph.D. candidates in relevant university departments or institutes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 學生會員 -->
+            <div class="fee-col col-6 col-md-4">
+                <div class="fee-plan">
+                    <div class="fee-cat" style="background-color: #1a1a1a;">
+                        <div class="fee-cat-tc">年度會費</div>
+                        <div class="fee-cat-en font-noto-sans">Annual Membership Fees</div>
+                    </div>
+                    <div class="fee-type" style="background-color: #f0ab2e;">
+                        <div class="fee-type-tc">學生會員</div>
+                        <div class="fee-type-en font-noto-sans">Student Member</div>
+                    </div>
+                    <div class="fee-price">
+                        <div class="fee-amount"><span class="fee-unit">NTD$</span>500</div>
+                        <p class="fee-period font-noto-sans">PER PERSON / YEAR</p>
+                    </div>
+                    <div class="fee-desc">
+                        <p>就讀於大學或研究所發展研究及相關系所學生。</p>
+                        <p class="font-noto-sans">Students enrolled in undergraduate or graduate programs in development studies or related departments / institutes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 團體會員 -->
+            <div class="fee-col col-6 col-md-4">
+                <div class="fee-plan">
+                    <div class="fee-cat" style="background-color: #1a1a1a;">
+                        <div class="fee-cat-tc">年度會費</div>
+                        <div class="fee-cat-en font-noto-sans">Annual Membership Fees</div>
+                    </div>
+                    <div class="fee-type" style="background-color: #6cc0e8;">
+                        <div class="fee-type-tc">團體會員</div>
+                        <div class="fee-type-en font-noto-sans">Institutional Member</div>
+                    </div>
+                    <div class="fee-price">
+                        <div class="fee-amount"><span class="fee-unit">NTD$</span>5,000</div>
+                        <p class="fee-period font-noto-sans">PER ORGANIZATION / YEAR</p>
+                    </div>
+                    <div class="fee-desc">
+                        <p>全國大專院校之發展研究相關系所或相關學術團體。</p>
+                        <p class="font-noto-sans">Development studies-related departments or institutes at universities and colleges nationwide, or relevant academic organizations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 退休會員 -->
+            <div class="fee-col col-6 col-md-4">
+                <div class="fee-plan">
+                    <div class="fee-cat" style="background-color: #1a1a1a;">
+                        <div class="fee-cat-tc">年度會費</div>
+                        <div class="fee-cat-en font-noto-sans">Annual Membership Fees</div>
+                    </div>
+                    <div class="fee-type" style="background-color: #3aa583;">
+                        <div class="fee-type-tc">退休會員</div>
+                        <div class="fee-type-en font-noto-sans">Retired Member</div>
+                    </div>
+                    <div class="fee-price">
+                        <div class="fee-amount"><span class="fee-unit">NTD$</span>500</div>
+                        <p class="fee-period font-noto-sans">PER ORGANIZATION / YEAR</p>
+                    </div>
+                    <div class="fee-desc">
+                        <p>個人會員退休或已離開研究及教學工作。</p>
+                        <p class="font-noto-sans">Individual members who have retired or left research and teaching positions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 終身會員 -->
+            <div class="fee-col col-6 col-md-4">
+                <div class="fee-plan">
+                    <div class="fee-cat" style="background-color: #cbb23f;">
+                        <div class="fee-cat-tc">終身會費</div>
+                        <div class="fee-cat-en font-noto-sans">Lifetime Membership Fee</div>
+                    </div>
+                    <div class="fee-type" style="background-color: #8a8a8a;">
+                        <div class="fee-type-tc">終身會員</div>
+                        <div class="fee-type-en font-noto-sans">Lifetime Member</div>
+                    </div>
+                    <div class="fee-price">
+                        <div class="fee-amount"><span class="fee-unit">NTD$</span>20,000</div>
+                        <p class="fee-period font-noto-sans">PER PERSON</p>
+                    </div>
+                    <div class="fee-desc">
+                        <p>符合個人會員條件，繳交一定數額會費者。</p>
+                        <p class="font-noto-sans">Individuals who meet the qualifications for Individual Membership and have paid the designated lifetime membership fee.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Constitution of TADS 章程 -->
+<style>
+    /* 章程手風琴展開高度上限放大（內容較長，避免被截斷） */
+    #constitution-acc:checked ~ .org-acc-content {
+        max-height: 30000px;
+    }
+    .constitution-text {
+        white-space: pre-wrap;
+        font-size: 0.95rem;
+        line-height: 1.95em;
+        color: #444;
+        border: 1px solid #d8d8d8;
+        background-color: #fff;
+        border-radius: 4px;
+        padding: 24px 26px;
+        margin-top: 4px;
+    }
+</style>
+
+<section class="section section-default section-no-border my-0" style="padding-top: 0;">
+    <div class="container pt-0 pb-4">
+
+        <!-- 區塊標題 -->
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h1 class="font-merriweather font-italic mb-0" style="font-weight: 700;">Constitution of TADS</h1>
+                    <div class="divider divider-primary divider-small mt-2 mb-4">
+                        <hr class="my-0 me-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 副標題 + 下載 -->
+        <div class="row align-items-start">
+            <div class="col-lg-8">
+                <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-1">台灣發展研究學會章程</h4>
+                <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-0">The Constitution of the Taiwanese Association for Development Studies</h4>
+            </div>
+            <div class="col-lg-4 mt-3 mt-lg-0 d-flex align-items-center justify-content-lg-end">
+                <span class="font-noto-sans-tc font-weight-bold text-dark me-3">下載章程</span>
+                <a href="~/static/Constitution.1081025.pdf" target="_blank" rel="noopener noreferrer"
+                   class="btn btn-primary btn-modern font-noto-serif-tc font-weight-bold">
+                    Download 下載
+                </a>
+            </div>
+        </div>
+
+        <!-- 章程內容（手風琴） -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="org-accordion font-noto-sans-tc">
+                    <input type="checkbox" id="constitution-acc" class="org-acc-input">
+                    <label for="constitution-acc" class="org-acc-label">
+                        <span class="org-acc-icon"></span>
+                        <span class="org-acc-title">章程 Constitution of TADS</span>
+                    </label>
+                    <div class="org-acc-content">
+<div class="constitution-text">《台灣發展研究學會章程》
+
+102年11月9日第1屆第1次會員大會審查
+105年10月15日第2屆第2次會員大會修訂
+107年10月27日第3屆第2次會員大會修訂
+108年10月25日第4屆第1次會員大會修訂
+
+
+第一章　總則
+
+第一條　本會名稱為台灣發展研究學會（Taiwanese Association for Development Studies, TADS）（以下簡稱本會）。
+
+第二條　本會為依法設立、非以營利為目的之社會團體，以推廣發展研究為宗旨。
+
+第三條　本會以全國行政區域為組織區域。
+
+第四條　本會會址設於主管機關所在地區，並得報經主管機關核准設分支機構。
+本會及其分支機構會址由理事會決定之。
+會址及分支機構之地址於設置及變更時，經理事會通過後，應函報主管機關核備。
+分支機構組織簡則由理事會擬訂，報請主管機關核准後行之。
+
+第五條　本會之任務如下：
+一、推動發展研究專業教學、研究與交流。
+二、舉辦演講、學術研究及其他相關學術活動。
+三、蒐集及交換國內外資料。
+四、接受公私機構之委託研究並回應諮詢。
+五、出版本會會刊及相關之各類會誌、書刊。
+六、辦理與國內外相關機構與學術團體之學術聯繫、交流活動。
+七、促進國人對發展研究相關議題之認識與關注。
+
+第六條　本會之主管機關為內政部。本會之主要目的事業主管機關為教育部。
+
+
+第二章　會員
+
+第七條　本會會員分下列五種：
+一、個人會員：贊同本會宗旨，年滿二十歲、有行為能力，以發展研究及相關學科之教學或研究為主要職業，或各大學相關系所博士候選人，填具入會申請書，經理事會通過，並繳納會費後，為個人會員。
+二、學生會員：贊同本會宗旨、年滿二十歲、有行為能力，就讀於大學或研究所發展研究及相關系所學生，填具入會申請書，經理事會通過，並繳納會費後，為學生會員。
+三、團體會員：全國大專院校之發展研究相關系所或相關學術團體贊同本會宗旨，填具入會申請書，經理事會通過，並繳納會費後，為團體會員，團體會員推派代表一人，以行使會員權利。
+四、終身會員：符合個人會員條件，繳交一定數額會費者，得申請為終身會員。
+五、退休會員：個人會員退休或離開研究及教學工作後，得申請為退休會員。
+六、榮譽會員：對於促進發展研究有重大貢獻之人士，得由理事會決議授予榮譽會員。
+
+第八條　會員（會員代表）有表決權、選舉權、被選舉權與罷免權。每一會員（會員代表）為一權。學生會員、退休會員及榮譽會員無前項權利。
+
+第九條　會員有遵守本會章程、決議及繳納會費之義務。
+
+第十條　會員（會員代表）有違反法令，章程或不遵守會員大會決議時，得經理事會決議，予以警告或停權處分，其危害團體情節重大者，得經會員大會決議予以除名。會員（會員代表）如不按照章程規定繳納會費者，不得享有會員權利；連續二年未繳納常年會費者，視為自動退會。會員經岀會、退會或停權處分，如欲申請復會或復權時，除有正當理由經理事會審核通過者外，應繳清前所積欠之常年會費。
+
+第十一條　會員有下列情事之一者，為出會：
+一、連續三年未繳會費者。
+二、經會員大會出席人員三分之二以上決議除名者。
+三、會員本人經書面聲明退會者。
+
+第十二條　會員得以書面敘明理由向本會聲明退會。
+
+
+第三章　組織及職權
+
+第十三條　本會以會員大會為最高權力機構。會員（會員代表）人數超過三百人以上時得分區比例選出會員代表，再召開會員代表大會，行使會員大會職權。會員代表任期二年，其各名額及選舉辦法由理事會擬訂，報請主管機關核備後行之。
+
+第十四條　會員大會之職權如下：
+一、訂定與變更章程。
+二、選舉及罷免理事、監事。
+三、議決入會費、常年會費及會員捐款之數額及方式。
+四、議決年度工作計畫、報告及預算、決算。
+五、議決會員之除名處分。
+六、議決財產之處分。
+七、議決本會之解散。
+八、議決與會員權利義務有關之其他重大事項。
+前項第八款重大事項之範圍由理事會定之。
+
+第十五條　本會置理事15人、監事5人，由會員選舉之，分別成立理事會、監事會。
+選舉前項理事、監事時，同時選出候補理事3人，候補監事1人，遇理事、監事出缺時，分別依序遞補之，以補足原任者餘留之任期為限。
+理事、監事、候補理事、候補監事之當選名次，依得票多寡為序，票數相同時，以抽籤定之。
+本屆理事會得提出下屆理事、監事候選人參考名單並印入選舉票中。
+理事、監事得採用通訊選舉。通訊選舉辦法由理事會通報主管機關核備後行之。
+
+第十六條　理事會之職權如下：
+一、審定會員(會員代表之資格)。
+二、選舉及罷免常務理事、副理事長、理事長。
+三、議決理事、常務理事、副理事長及理事長之辭職。
+四、聘免工作人員。
+五、擬定年度工作計畫、報告及預算、決算。
+六、其他應執行事項。
+
+第十七條　理事會置常務理事 5 人，由理事互選之，並由理事就常務理事中選舉 1 人為理事長、1 人為副理事長。
+理事長對內綜理督導會務，對外代表本會，並擔任會員大會、理事會主席。
+理事長因事不能執行職務時，應指定副理事長代理之，未指定或不能指定時，由常務理事互推 1 人代理之。理事長、副理事長、常務理事出缺時，應於一個月內補選之。
+
+第十八條　監事會之職權如下：
+一、監察理事會工作之執行。
+二、審核年度決算。
+三、選舉及罷免常務監事。
+四、議決監事及常務監事之辭職。
+五、其他應監察事項。
+
+第十九條　監事會置常務監事1人，由監事互選之，監察日常會務。
+常務監事因事不能執行職務時，應指定監事一人代理之，未指定或不能指定時，由監事互推一人代理之。
+常務監事出缺時應於一個月內補選之。
+
+第二十條　理事、監事均為無給職，任期2年，連選得連任。理事長之連任，以一次為限。
+理事、監事之任期自召開本屆第一次理事會之日起計算。
+
+第二十一條　理事、監事有下列情事之一者，應即解任：
+一、喪失會員資格者。
+二、因故辭職經理事會或監事會決議通過者。
+三、被罷免或撤免者。
+四、受停權處分期間逾任期二分之一者。
+
+第二十二條　本會置秘書長一人，承理事長之命處理本會事務。並置財務長一人，協助理事長管理財務。秘書長、財務長，由理事長提名經理事會通過聘免之，並報主管機關備查。
+前項工作人員不得由理事監事擔任。
+工作人員權責及分層負責事項由理事會另定之。
+
+第二十三條　本會得設各種委員會、小組或其他內部作業組織，其組織簡則經理事會擬定通過後，報經主管機關核備後施行，變更時亦同。
+
+第二十四條　本會得由理事會聘請榮譽理事長，榮譽理事、榮譽顧問若干人，其聘期與理事、監事之任期同。
+
+
+第四章　會議
+
+第二十五條　會員（會員代表）大會分定期會議與臨時會議二種，由理事召集，召集時除緊急事故之臨時會議外應於十五日前以書面通知之。
+定期會議每年召開一次，臨時會議於理事會認為必要，或經會員（會員代表）五分之一以上之請求，或監事會函請召集時召開之。
+本會辦理法人登記後，臨時會議經會員（會員代表）十分之一以上之請求召開之。
+
+第二十六條　會員（會員代表）不能親自出席會員大會時，得以書面委託其他會員（會員代表）代理，每一會員（會員代表）以代理一人為限。
+
+第二十七條　會員（會員代表）大會之決議，以會員（會員代表）過半數之出席，出席人數較多數之同意行之。但下列事項之決議以出席人數三分之二以上同意行之。
+一、章程之訂定與變更。
+二、會員（會員代表）之除名。
+三、理事、監事之罷免。
+四、財產之處分。
+五、本會之解散。
+六、其他與會員權利義務有關之重大事項。
+本會辦理法人登記後，章程之變更以出席人數四分之三以上之同意或全體會員三分之二以上書面之同意行之。
+本會之解散，得隨時以全體會員三分之二以上可決解散之。
+
+第二十八條　理事會、監事會至少每六個月召開一次，必要時得召開聯席會議或臨時會議。
+前項會議召集時除臨時會議外，應於七日前以書面通知，會議之決議，各以理事、監事過半數之出席，出席人數較多數之同意行之。
+
+第二十九條　理事應出席理事會議，監事應出席監事會議，理事會、監事會不得委託出席：理事、監事連續二次無故缺席理事會、監事會者，視同辭職，所遺職缺由候補理事、監事依序遞補。
+
+
+第五章　經費及會計
+
+第三十條　本會經費來源如下：
+一、入會費：每人新臺幣100元，若在入會首年繳交常年會費者免繳入會費。
+二、年度會費：個人會員：每人、每年新臺幣1,000元。
+學生會員：每人、每年新臺幣500元。
+團體會員：每團體每年新臺幣5,000元。
+退休會員：每人、每年新臺幣500元。
+三、終身會費：新臺幣20,000元。
+四、會員捐款。
+五、委託收益。
+六、基金及其孳息。
+七、其他收入。
+
+第三十一條　本會會計年度以曆年為準，自每年一月一日起至十二月三十一日止。
+
+第三十二條　本會每年於會計年度開始前二個月由理事會編造年度工作計畫、收支預算表、員工待遇表，提會員大會通過（會員大會因故未能如期召開者，先提理監事聯席會議通過），於會計年度開始前報主管機關核備。並於會計年度終了後二個月內由理事會編造年度工作報告、收支決算表、現金出納表、資產負債表、財產目錄及基金收支表，送監事會審核後，造具審核意見書送還理事會，提會員大會通過，於三月底前報主管機關核備（會員大會未能如期召開者，先報主管機關）。
+
+第三十三條　本會於解散後，剩餘財產歸屬所在地之地方自治團體或主管機關指定之機關團體所有。
+
+
+第六章　附則
+
+第三十四條　本章程未規定事項，悉依有關法令規定辦理。
+
+第三十五條　本章程經會員大會通過，報經主管機關核備後施行，變更時亦同。
+
+第三十六條　本章程經本會年月日第一屆第一次會員大會通過。
+
+報經內政部103年5月27日臺內團字第1030163309號函准予備查。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
