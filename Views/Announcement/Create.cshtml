@@ -1,0 +1,107 @@
+@model TADS_Web.Models.VM_News
+@{
+    ViewData["Title"] = "新增公告";
+}
+
+@section CustomCss {
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+}
+
+<form id="frm" method="post" asp-controller="Announcement" asp-action="Create" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <!-- 頁面標題列：左標題、右返回/儲存 -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">新增公告</h1>
+        <div>
+            <a class="btn btn-light" href="@Url.Action("List", "Announcement")">返回</a>
+            <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                @if (Model.TopId.Count > 0)
+                {
+                    <div class="col-12 form-group mb-3">
+                        @Html.LabelFor(x => x.NewsExtendItem.News.IsKeepTop, "是否置頂", new { @class = "form-label" })
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, true, new { @id = "KeepTopYes", disabled = "disabled" }) 是
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, false, new { @id = "KeepTopNo", disabled = "disabled", @checked = "checked" }) 否
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12 form-group mb-3">
+                        @Html.LabelFor(x => x.NewsExtendItem.News.IsKeepTop, "是否置頂", new { @class = "form-label" })
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, true, new { @id = "KeepTopYes" }) 是
+                        @Html.RadioButtonFor(x => x.NewsExtendItem.News.IsKeepTop, false, new { @id = "KeepTopNo", @checked = "checked" }) 否
+                    </div>
+                }
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.isPublish, "狀態", new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.isPublish, Model.ddlPublish, new { @class = "form-control", id = "ddlPublish" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.Title, "標題：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.NewsExtendItem.News.Title, new { @class = "form-control", placeholder = "請輸入標題" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.Category, "類型", new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.NewsExtendItem.News.Category, Model.ddlCategory, new { @class = "form-control", id = "ddlCategory" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.DisplayDate, "日期", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.NewsExtendItem.News.DisplayDate, new { @class = "form-control", placeholder = "年/月/日", id = "NewsExtendItem_News_DisplayDate" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.NewsExtendItem.News.Contents, "內容", new { @class = "form-label" })
+                    @Html.TextAreaFor(x => x.NewsExtendItem.News.Contents, new { @class = "form-control", rows = "6", id = "Contents" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.NewsExtendItem.News.FileId, "上傳圖片：", new { @class = "form-label" })
+                    <input type="file" name="NewsFile" class="form-control" accept=".png,.jpg,.jpeg" />
+                    @Html.HiddenFor(x => x.NewsExtendItem.News.FileId, new { @id = "FileId" })
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script type="text/javascript">
+        let contentEditor = null;
+
+        $(document).ready(function () {
+            $('#NewsExtendItem_News_DisplayDate').daterangepicker({
+                singleDatePicker: true,
+                locale: { format: 'YYYY-MM-DD' }
+            });
+
+            ClassicEditor
+                .create(document.querySelector('#Contents'))
+                .then(editor => { contentEditor = editor; })
+                .catch(error => { console.error(error); });
+
+            // 送出前把編輯器內容同步回 textarea
+            $('#frm').on('submit', function () {
+                if (contentEditor) {
+                    document.querySelector('#Contents').value = contentEditor.getData();
+                }
+            });
+        });
+    </script>
+}

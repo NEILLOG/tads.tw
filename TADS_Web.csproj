@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- Keep the reference template and TADS source materials out of the build/publish output -->
     <DefaultItemExcludes>$(DefaultItemExcludes);template\**;tads-materials\**</DefaultItemExcludes>
-  </PropertyGr                                                                                                                      oup>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />

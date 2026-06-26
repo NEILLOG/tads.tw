@@ -213,7 +213,15 @@ namespace TADS_Web.Service.Base
             {
                 string table_name = typeof(T).Name;
                 _context.Database.UseTransaction(transaction.GetDbTransaction());
-                await ExecuteSqlCommand(String.Format("SELECT * FROM {0} WITH(updlock, rowlock, holdlock) {1}", table_name, condition));
+
+                // SQL Server 才支援 WITH(updlock, rowlock, holdlock) 鎖定提示；
+                // SQLite 等其他提供者不支援，於交易內以一般 SELECT 取代（寫入鎖已由交易提供）。
+                bool isSqlServer = _context.Database.ProviderName == "Microsoft.EntityFrameworkCore.SqlServer";
+                string query = isSqlServer
+                    ? String.Format("SELECT * FROM {0} WITH(updlock, rowlock, holdlock) {1}", table_name, condition)
+                    : String.Format("SELECT * FROM {0} {1}", table_name, condition);
+
+                await ExecuteSqlCommand(query);
                 return true;
             }
             catch { throw; }
