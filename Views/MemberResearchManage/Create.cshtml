@@ -1,0 +1,98 @@
+@model TADS_Web.Models.VM_MemberResearch
+@{
+    ViewData["Title"] = "新增研究成果";
+}
+
+<form id="frm" method="post" asp-controller="MemberResearchManage" asp-action="Create" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">新增研究成果</h1>
+        <div>
+            <a class="btn btn-light" href="@Url.Action("List", "MemberResearchManage")">返回</a>
+            <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.isPublish, "狀態", new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.isPublish, Model.ddlPublish, new { @class = "form-control", id = "ddlPublish" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.ResearchItem.Research.Title, "標題（論文/專書名稱）：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.ResearchItem.Research.Title, new { @class = "form-control", placeholder = "請輸入論文/專書名稱" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.AuthorInfo, "作者資訊（單位 姓名 職稱）：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.ResearchItem.Research.AuthorInfo, new { @class = "form-control", placeholder = "例：國立臺灣大學國家發展研究所 劉秋婉副教授" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.IntroTitle, "簡介標題：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.ResearchItem.Research.IntroTitle, new { @class = "form-control", placeholder = "例：如何了解中國私有科技平台對外投資行為？" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.IntroContent, "簡介內容：", new { @class = "form-label" })
+                    @Html.TextAreaFor(x => x.ResearchItem.Research.IntroContent, new { @class = "form-control", rows = "8", id = "IntroContent" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.Citation, "學術引用格式（APA）：", new { @class = "form-label" })
+                    @Html.TextAreaFor(x => x.ResearchItem.Research.Citation, new { @class = "form-control", rows = "3", placeholder = "貼上完整 APA 引用，含結尾 DOI 連結（系統會自動轉成超連結）" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.AuthorBioName, "作者簡介-姓名（中英）：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.ResearchItem.Research.AuthorBioName, new { @class = "form-control", placeholder = "例：劉秋婉 Liu, Chiu-Wan" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.AuthorBioPosition, "作者簡介-現職：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.ResearchItem.Research.AuthorBioPosition, new { @class = "form-control", placeholder = "例：國立臺灣大學國家發展研究所 副教授" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.AuthorBioExpertise, "作者簡介-研究專長：", new { @class = "form-label" })
+                    @Html.TextAreaFor(x => x.ResearchItem.Research.AuthorBioExpertise, new { @class = "form-control", rows = "2", placeholder = "例：中國金融科技與電子商務、政治經濟學…" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.SortOrder, "排序（數字越小越前面）：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.ResearchItem.Research.SortOrder, new { @class = "form-control", type = "number", value = "0" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.ResearchItem.Research.FileId, "封面圖：", new { @class = "form-label" })
+                    <input type="file" name="CoverFile" class="form-control" accept=".png,.jpg,.jpeg" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script type="text/javascript">
+        let introEditor = null;
+
+        $(document).ready(function () {
+            ClassicEditor
+                .create(document.querySelector('#IntroContent'))
+                .then(editor => { introEditor = editor; })
+                .catch(error => { console.error(error); });
+
+            $('#frm').on('submit', function () {
+                if (introEditor) {
+                    document.querySelector('#IntroContent').value = introEditor.getData();
+                }
+            });
+        });
+    </script>
+}

@@ -31,6 +31,7 @@ builder.Services.AddAntiforgery(options =>
 builder.Services.AddScoped<AllCommonService>();
 builder.Services.AddScoped<CommonService>();
 builder.Services.AddScoped<NewsService>();
+builder.Services.AddScoped<MemberResearchService>();
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<UserService>();
 

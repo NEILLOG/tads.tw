@@ -1,0 +1,70 @@
+@model TADS_Web.Models.VM_MemberResearch
+@{
+    Layout = "_LayoutInner";
+    ViewData["Title"] = "Member Research 以文會友-會員研究成果";
+    ViewData["PageTitle"] = "Member Research 以文會友-會員研究成果";
+    ViewData["BreadcrumbCurrent"] = "Member Research 以文會友-會員研究成果";
+}
+
+<style>
+    .member-research .post-title a {
+        color: #C89B3C;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .member-research .post-title a:hover,
+    .member-research .post-title a:focus {
+        color: #FEAE00;
+    }
+
+    .member-research .post-author {
+        color: #6c757d;
+    }
+
+    .member-research .post-image img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col">
+            <div class="blog-posts member-research">
+                <div class="row">
+                    @if (Model.ResearchList != null && Model.ResearchList.Count > 0)
+                    {
+                        foreach (var item in Model.ResearchList)
+                        {
+                            string detailUrl = Url.Action("Detail", "MemberResearch", new { id = item.Research.Id });
+                            string cover = string.IsNullOrEmpty(item.CoverUrl) ? Url.Content("~/img/blank.gif") : item.CoverUrl;
+                            <div class="col-md-6 col-lg-4">
+                                <article class="post post-medium border-0 pb-0 mb-5">
+                                    <div class="post-image">
+                                        <a href="@detailUrl">
+                                            <img src="@cover" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" alt="@item.Research.Title" />
+                                        </a>
+                                    </div>
+                                    <div class="post-content">
+                                        <h2 class="post-title text-5 line-height-6 mt-3 mb-2">
+                                            <a href="@detailUrl">@item.Research.Title</a>
+                                        </h2>
+                                        <p class="post-author mb-3">@item.Research.AuthorInfo</p>
+                                        <a href="@detailUrl" class="btn btn-xs btn-light text-1 text-uppercase">Read More</a>
+                                    </div>
+                                </article>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12 text-center text-muted py-5">目前暫無資料</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

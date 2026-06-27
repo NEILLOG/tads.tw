@@ -1,0 +1,189 @@
+@model TADS_Web.Models.VM_MemberResearch
+@{
+    ViewData["Title"] = "會員研究成果管理";
+}
+
+<!-- 頁面標題列：左標題、右新增按鈕 -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">會員研究成果管理</h1>
+    <a class="btn btn-primary" href="@Url.Action("Create", "MemberResearchManage")">
+        <i class="fas fa-plus fa-sm"></i> 新增研究成果
+    </a>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <form id="frm" method="get" asp-controller="MemberResearchManage" asp-action="List" autocomplete="off">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_iPageIndex, new { @class = "hiddenCurrentPage" })
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_iPageCount, new { @class = "hiddenPageCount" })
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_Search, new { @class = "pager-Info-Search" })
+
+                    <div class="row g-3 mb-3 align-items-end">
+                        <div class="col-12 col-md-auto">
+                            <div class="input-group">
+                                @Html.LabelFor(x => x.Search.sTitle, "標題", new { @class = "input-group-text" })
+                                @Html.TextBoxFor(x => x.Search.sTitle, new { @class = "form-control", placeholder = "請輸入標題", type = "text" })
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <button type="button" class="btn btn-danger" onclick="clearSearch()">清除</button>
+                            <button type="submit" class="btn btn-primary">查詢</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- 資料清單 -->
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>項次</th>
+                                <th>封面</th>
+                                <th>標題</th>
+                                <th>作者資訊</th>
+                                <th>排序</th>
+                                <th>狀態</th>
+                                <th class="text-end">管理</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.ResearchList != null && Model.ResearchList.Count > 0)
+                            {
+                                foreach (var item in Model.ResearchList)
+                                {
+                                    string status = item.Research.IsPublish ? "上架中" : "已下架";
+                                    string buttonInfo = item.Research.IsPublish ? "下架" : "上架";
+                                    <tr>
+                                        <td>@(Model.ResearchList.IndexOf(item) + 1)</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.CoverUrl))
+                                            {
+                                                <img src="@item.CoverUrl" alt="" style="width:48px;height:48px;object-fit:cover;" />
+                                            }
+                                        </td>
+                                        <td>@item.Research.Title</td>
+                                        <td>@item.Research.AuthorInfo</td>
+                                        <td>@item.Research.SortOrder</td>
+                                        <td>@status</td>
+                                        <td class="text-end">
+                                            <a class="btn btn-primary btn-sm" href="@(Url.Action("Modify", "MemberResearchManage", new { id = item.Research.Id }))">編輯</a>
+                                            @if (buttonInfo == "上架")
+                                            {
+                                                <button type="button" class="btn btn-success btn-sm" onclick="PublishChange('@item.Research.Id')">上架</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-outline-success btn-sm" onclick="PublishChange('@item.Research.Id')">下架</button>
+                                            }
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="Delete('@item.Research.Id')">刪除</button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="7" class="text-center">目前暫無資料</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (Model != null && Model.ResearchList != null && Model.ResearchList.Count > 0)
+                {
+                    @await Html.PartialAsync("_Pagination", Model.Search.PagerInfo)
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function inform(opt) {
+            Swal.fire({
+                icon: opt.type === 'success' ? 'success' : 'error',
+                title: opt.title || '',
+                text: opt.content || ''
+            }).then(function () {
+                if (opt.type === 'success') {
+                    location.reload();
+                }
+            });
+        }
+
+        function clearSearch() {
+            $('#Search_sTitle').val('');
+        }
+
+        function Delete(id) {
+            Swal.fire({
+                title: '提示訊息',
+                text: '你是否要刪除此研究成果？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '刪除',
+                cancelButtonText: '取消',
+            }).then((r) => {
+                if (r.isConfirmed) {
+                    $.ajax({
+                        type: "Post",
+                        url: "@(Url.Action("Delete", "MemberResearchManage"))",
+                        dataType: "json",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+                        },
+                        data: { id: id },
+                        success: function (result) {
+                            inform({
+                                plugin: result.alert_plugin,
+                                type: result.alert_type,
+                                title: result.message,
+                                content: result.messageDetail,
+                                redirect_url: ""
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        function PublishChange(id) {
+            Swal.fire({
+                title: '提示訊息',
+                text: '是否變更上下架狀態？',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+            }).then((r) => {
+                if (r.isConfirmed) {
+                    $.ajax({
+                        type: "Post",
+                        url: "@(Url.Action("PublishChange", "MemberResearchManage"))",
+                        dataType: "json",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("X-XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+                        },
+                        data: { id: id },
+                        success: function (result) {
+                            inform({
+                                plugin: result.alert_plugin,
+                                type: result.alert_type,
+                                title: result.message,
+                                content: result.messageDetail,
+                                redirect_url: ""
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}
