@@ -303,6 +303,112 @@
 </div>
 
 
+<!-- 以文會友 Member Research 最新六筆 -->
+<style>
+    .member-research-home article {
+        padding-bottom: 1.5rem;
+        border-bottom: 1px dotted #d6d6d6;
+    }
+
+    .member-research-home .col-md-6:nth-last-child(-n+2) article {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .member-research-home-thumb {
+        display: block;
+        width: 96px;
+        height: 96px;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .member-research-home-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background-color: #fff;
+        transition: transform 0.3s ease;
+    }
+
+    .member-research-home-thumb:hover img {
+        transform: scale(1.05);
+    }
+
+    .member-research-home-body .post-title a {
+        color: #212529;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .member-research-home-body .post-title a:hover {
+        color: #C89B3C;
+    }
+
+    .member-research-home-body .post-meta {
+        color: #999;
+    }
+</style>
+
+<section class="section section-default section-no-border my-0 py-5">
+    <div class="container py-3">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="mb-0 font-weight-bold text-dark font-merriweather">Member Research <div style="display: inline-block;" class="ms-4 font-noto-serif-tc font-weight-bold">以文會友</div></h2>
+                <div class="divider divider-primary divider-small mt-2 mb-4">
+                    <hr class="my-0 me-auto">
+                </div>
+                <p class="text-3 text-muted font-noto-sans-tc mb-0">分享學會會員在發展研究及相關領域的最新著作與研究成果</p>
+            </div>
+        </div>
+
+        @{
+            var researchLatest = ViewBag.MemberResearchLatest as List<TADS_Web.Models.Extend.MemberResearchExtend>;
+        }
+        <div class="row member-research-home">
+            @if (researchLatest != null && researchLatest.Count > 0)
+            {
+                foreach (var item in researchLatest)
+                {
+                    string detailUrl = Url.Action("Detail", "MemberResearch", new { id = item.Research.Id });
+                    string cover = string.IsNullOrEmpty(item.CoverUrl) ? Url.Content("~/img/blank.gif") : item.CoverUrl;
+                    <div class="col-md-6 mb-4">
+                        <article class="d-flex align-items-start">
+                            <a href="@detailUrl" class="member-research-home-thumb me-3">
+                                <img src="@cover" alt="@item.Research.Title" />
+                            </a>
+                            <div class="member-research-home-body">
+                                <h4 class="post-title text-4 line-height-3 font-weight-bold mb-1">
+                                    <a href="@detailUrl">@item.Research.Title</a>
+                                </h4>
+                                @if (!string.IsNullOrEmpty(item.Research.AuthorInfo))
+                                {
+                                    <p class="post-meta text-2 mb-1">@item.Research.AuthorInfo</p>
+                                }
+                                <span class="post-meta text-1 text-uppercase">@item.Research.CreateDate.ToString("MMMM d, yyyy")</span>
+                            </div>
+                        </article>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center text-muted py-4">目前暫無資料</div>
+            }
+        </div>
+
+        @if (researchLatest != null && researchLatest.Count > 0)
+        {
+            <div class="row">
+                <div class="col text-center">
+                    <a href="@Url.Action("List", "MemberResearch")" class="btn btn-primary btn-modern text-2 font-weight-semibold text-uppercase">View All</a>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+
 <!-- 研究成果 -->
 @*
 <section class="section bg-transparent section-no-border my-0">
@@ -400,7 +506,7 @@
                     <div class="col-half-section col-half-section-right py-5 ms-auto">
                         <div class="p-3">
                             <div class="appear-animation" data-appear-animation="fadeInRightShorter" data-appear-animation-delay="200">
-                                <h2 class="mb-0 font-weight-bold text-dark  font-merriweather">Related Links <div style="display: inline-block;" class="ms-4 font-noto-serif-tc font-weight-bold">相關連結</div></h2>
+                                <h2 class="mb-0 font-weight-bold text-dark  font-merriweather">Relevant Links <div style="display: inline-block;" class="ms-4 font-noto-serif-tc font-weight-bold">相關連結</div></h2>
                                 <div class="divider divider-primary divider-small mt-2 mb-4">
                                     <hr class="my-0 me-auto">
                                 </div>

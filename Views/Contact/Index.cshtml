@@ -1,0 +1,149 @@
+@{
+    Layout = "_LayoutInner";
+    ViewData["Title"] = "Contact Us 聯絡我們";
+    ViewData["PageTitle"] = "Contact Us 聯絡我們";
+    ViewData["BreadcrumbCurrent"] = "Contact Us 聯絡我們";
+}
+
+<style>
+    .contact-info-card {
+        background-color: #fff;
+        border: 1px solid #e6e6e6;
+        border-radius: 6px;
+        padding: 34px 36px;
+        height: 100%;
+    }
+    .contact-info-card .list-icons > li {
+        margin-bottom: 22px;
+        line-height: 1.75em;
+    }
+    .contact-info-card .list-icons > li:last-child {
+        margin-bottom: 0;
+    }
+    .contact-info-card .list-icons i {
+        top: 4px;
+        color: var(--primary, #b89968);
+    }
+    .contact-info-label {
+        display: block;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 2px;
+    }
+    .contact-info-card a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .contact-info-card a:hover {
+        color: var(--primary, #b89968);
+    }
+    .contact-map iframe {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        border: 0;
+        border-radius: 6px;
+        display: block;
+    }
+</style>
+
+<section class="section section-default section-no-border my-0">
+    <div class="container pt-3 pb-4">
+
+        <!-- 標題 -->
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h1 class="font-merriweather font-italic mb-0" style="font-weight: 700;">Contact Us</h1>
+                    <div class="divider divider-primary divider-small mt-2 mb-4">
+                        <hr class="my-0 me-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 學會名稱 -->
+        <div class="row">
+            <div class="col-12">
+                <div>
+                    <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-1">台灣發展研究學會</h4>
+                    <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-0">Taiwanese Association for Development Studies, TADS</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- 左：聯絡資訊　右：地圖 -->
+        <div class="row mt-4 align-items-stretch">
+
+            <!-- 中文聯絡資訊 -->
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="contact-info-card font-noto-sans-tc">
+                    <h4 class="font-noto-serif-tc font-weight-bold text-dark mb-4">聯絡資訊</h4>
+                    <ul class="list list-icons">
+                        <li>
+                            <i class="fas fa-location-dot"></i>
+                            <span class="contact-info-label">地址</span>
+                            <a href="https://maps.app.goo.gl/gR8q72HdCaQDhQdT6" target="_blank" rel="noopener noreferrer">
+                                116 台北市文山區指南路2段64號<br>
+                                國立政治大學綜合院館北棟7樓
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span class="contact-info-label">電話</span>
+                            <a href="tel:+886229393091,50721">02-2939-3091 分機 50721</a>
+                        </li>
+                        <li>
+                            <i class="far fa-envelope"></i>
+                            <span class="contact-info-label">信箱</span>
+                            <a href="mailto:tads.tw@gmail.com">tads.tw@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 英文聯絡資訊 -->
+            <div class="col-lg-6">
+                <div class="contact-info-card font-noto-sans">
+                    <h4 class="font-merriweather font-weight-bold text-dark mb-4">Contact Information</h4>
+                    <ul class="list list-icons">
+                        <li>
+                            <i class="fas fa-location-dot"></i>
+                            <span class="contact-info-label">Address</span>
+                            <a href="https://maps.app.goo.gl/gR8q72HdCaQDhQdT6" target="_blank" rel="noopener noreferrer">
+                                7F., No.64, Sec. 2, Zhinan Rd., Wenshan Dist.,<br>
+                                Taipei City 116, Taiwan (R.O.C.)
+                            </a>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span class="contact-info-label">Tel</span>
+                            <a href="tel:+886229393091,50721">(+886)2-2939-3091 Transfer 50721</a>
+                        </li>
+                        <li>
+                            <i class="far fa-envelope"></i>
+                            <span class="contact-info-label">Email</span>
+                            <a href="mailto:tads.tw@gmail.com">tads.tw@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地圖 -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="contact-map">
+                    <iframe
+                        src="https://www.google.com/maps?q=%E5%9C%8B%E7%AB%8B%E6%94%BF%E6%B2%BB%E5%A4%A7%E5%AD%B8%E7%B6%9C%E5%90%88%E9%99%A2%E9%A4%A8&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                        title="國立政治大學綜合院館">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

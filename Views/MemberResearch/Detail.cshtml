@@ -44,81 +44,81 @@
     .mr-detail .mr-cover img {
         width: 100%;
         object-fit: contain;
+        border: 1px solid #e6e6e6;
+        background-color: #fff;
     }
 </style>
 
 <section class="section section-default section-no-border my-0">
     <div class="container py-5 mr-detail">
 
+        <div class="row mb-4">
+            <div class="col-12">
+                <a href="@Url.Action("List", "MemberResearch")" onclick="if (document.referrer) { history.back(); return false; }" class="btn btn-light text-1 text-uppercase">&laquo; Back</a>
+            </div>
+        </div>
+
         <div class="row">
-            <!-- 封面圖案 -->
-            <div class="col-lg-4 mb-4 mb-lg-0">
+            <!-- 左欄：封面圖案 -->
+            <div class="col-lg-3 mb-4 mb-lg-0">
                 <div class="mr-cover">
                     <img src="@cover" class="img-fluid" alt="@research.Title" />
                 </div>
             </div>
 
-            <!-- 標題 + 作者資訊 -->
-            <div class="col-lg-8">
+            <!-- 右欄：標題 + 作者 + 簡介 + 引用 + 作者簡介 -->
+            <div class="col-lg-9">
                 <h1 class="mr-title font-merriweather mb-3">@research.Title</h1>
                 @if (!string.IsNullOrEmpty(research.AuthorInfo))
                 {
                     <p class="mr-author-info font-noto-serif-tc">@research.AuthorInfo</p>
                 }
+
+                <!-- 簡介內容 -->
+                @if (!string.IsNullOrEmpty(research.IntroTitle) || !string.IsNullOrEmpty(research.IntroContent))
+                {
+                    <div class="mt-4">
+                        @if (!string.IsNullOrEmpty(research.IntroTitle))
+                        {
+                            <h4 class="mr-intro-title font-noto-sans-tc mb-3">@research.IntroTitle</h4>
+                        }
+                        @if (!string.IsNullOrEmpty(research.IntroContent))
+                        {
+                            <div class="mr-block font-noto-sans-tc text-dark">@Html.Raw(research.IntroContent)</div>
+                        }
+                    </div>
+                }
+
+                <!-- 學術引用格式（APA） -->
+                @if (!string.IsNullOrEmpty(citationHtml))
+                {
+                    <div class="mr-block font-noto-sans-tc text-dark mt-4">@Html.Raw(citationHtml)</div>
+                }
+
+                <!-- 作者簡介 -->
+                @if (!string.IsNullOrEmpty(research.AuthorBioName) || !string.IsNullOrEmpty(research.AuthorBioPosition) || !string.IsNullOrEmpty(research.AuthorBioExpertise))
+                {
+                    <div class="font-noto-sans-tc text-dark mr-block mt-4">
+                        @if (!string.IsNullOrEmpty(research.AuthorBioName))
+                        {
+                            <div>@research.AuthorBioName</div>
+                        }
+                        @if (!string.IsNullOrEmpty(research.AuthorBioPosition))
+                        {
+                            <div>現職｜@research.AuthorBioPosition</div>
+                        }
+                        @if (!string.IsNullOrEmpty(research.AuthorBioExpertise))
+                        {
+                            <div style="white-space: pre-line;">@research.AuthorBioExpertise</div>
+                        }
+                    </div>
+                }
             </div>
         </div>
 
-        <!-- 簡介內容 -->
-        @if (!string.IsNullOrEmpty(research.IntroTitle) || !string.IsNullOrEmpty(research.IntroContent))
-        {
-            <div class="row mt-5">
-                <div class="col-12">
-                    @if (!string.IsNullOrEmpty(research.IntroTitle))
-                    {
-                        <h4 class="mr-intro-title font-noto-sans-tc mb-3">@research.IntroTitle</h4>
-                    }
-                    @if (!string.IsNullOrEmpty(research.IntroContent))
-                    {
-                        <div class="mr-block font-noto-sans-tc text-dark">@Html.Raw(research.IntroContent)</div>
-                    }
-                </div>
-            </div>
-        }
-
-        <!-- 學術引用格式（APA） -->
-        @if (!string.IsNullOrEmpty(citationHtml))
-        {
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="mr-block font-noto-sans-tc text-dark">@Html.Raw(citationHtml)</div>
-                </div>
-            </div>
-        }
-
-        <!-- 作者簡介 -->
-        @if (!string.IsNullOrEmpty(research.AuthorBioName) || !string.IsNullOrEmpty(research.AuthorBioPosition) || !string.IsNullOrEmpty(research.AuthorBioExpertise))
-        {
-            <div class="row mt-4">
-                <div class="col-12 font-noto-sans-tc text-dark mr-block">
-                    @if (!string.IsNullOrEmpty(research.AuthorBioName))
-                    {
-                        <div>@research.AuthorBioName</div>
-                    }
-                    @if (!string.IsNullOrEmpty(research.AuthorBioPosition))
-                    {
-                        <div>現職｜@research.AuthorBioPosition</div>
-                    }
-                    @if (!string.IsNullOrEmpty(research.AuthorBioExpertise))
-                    {
-                        <div>研究專長｜@research.AuthorBioExpertise</div>
-                    }
-                </div>
-            </div>
-        }
-
         <div class="row mt-5">
             <div class="col-12">
-                <a href="@Url.Action("List", "MemberResearch")" class="btn btn-light text-1 text-uppercase">&laquo; Back</a>
+                <a href="@Url.Action("List", "MemberResearch")" onclick="if (document.referrer) { history.back(); return false; }" class="btn btn-light text-1 text-uppercase">&laquo; Back</a>
             </div>
         </div>
 
