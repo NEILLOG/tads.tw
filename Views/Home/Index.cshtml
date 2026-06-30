@@ -248,6 +248,101 @@
 *@
 
 
+<!-- 最新消息 -->
+<style>
+    .news-home ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .news-home li {
+        border-bottom: 1px dotted #d6d6d6;
+        padding: 1rem 0;
+    }
+
+    .news-home li:last-child {
+        border-bottom: none;
+    }
+
+    .news-home .news-date {
+        white-space: nowrap;
+        color: #999;
+    }
+
+    .news-home .news-category {
+        display: inline-block;
+        background-color: #C89B3C;
+        color: #fff;
+        border-radius: 3px;
+        padding: 0.1rem 0.6rem;
+        white-space: nowrap;
+    }
+
+    .news-home .news-title a {
+        color: #212529;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .news-home .news-title a:hover {
+        color: #C89B3C;
+    }
+</style>
+
+<section class="section section-no-border my-0 py-5" style="background-color: #fff;">
+    <div class="container py-3">
+        <div class="row mb-4">
+            <div class="col">
+                <h2 class="mb-0 font-weight-bold text-dark font-merriweather">Latest News <div style="display: inline-block;" class="ms-4 font-noto-serif-tc font-weight-bold">最新消息</div></h2>
+                <div class="divider divider-primary divider-small mt-2 mb-4">
+                    <hr class="my-0 me-auto">
+                </div>
+            </div>
+        </div>
+
+        @{
+            var newsLatest = ViewBag.NewsLatest as List<TADS_Web.Models.Extend.NewsExtend>;
+        }
+        <div class="row news-home">
+            <div class="col-12">
+                @if (newsLatest != null && newsLatest.Count > 0)
+                {
+                    <ul>
+                        @foreach (var item in newsLatest)
+                        {
+                            <li class="d-flex align-items-start flex-wrap gap-2">
+                                <span class="news-date text-2 text-uppercase">@item.News.DisplayDate.ToString("yyyy/MM/dd")</span>
+                                @if (!string.IsNullOrEmpty(item.News.Category))
+                                {
+                                    <span class="news-category text-1">@item.News.Category</span>
+                                }
+                                <h4 class="news-title text-4 line-height-3 font-weight-bold mb-0 flex-fill">
+                                    <a href="@Url.Action("News", "Home", new { id = item.News.Id })">@item.News.Title</a>
+                                </h4>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <div class="text-center text-muted py-4">目前暫無資料</div>
+                }
+            </div>
+        </div>
+
+        @if (newsLatest != null && newsLatest.Count > 0)
+        {
+            <div class="row mt-4">
+                <div class="col text-center">
+                    <a href="@Url.Action("NewsList", "Home")" class="btn btn-primary btn-modern text-2 font-weight-semibold text-uppercase">View All</a>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+
 <!-- 關於學會 -->
 <div class="container-fluid">
     <div class="row" style="background: url(img/background-1.jpg); background-size: contain; background-position: center;">
