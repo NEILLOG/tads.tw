@@ -1,0 +1,78 @@
+@using TADS_Web.Models
+@using TADS_Web.Extensions
+@{
+    Layout = "~/Views/Shared/Admin/_AdminLayout.cshtml";
+    ViewData["Title"] = "後台首頁";
+
+    var userInfo = Context.Session.Get<UserSessionModel>(SessionStruct.Login.UserInfo);
+    var userName = userInfo?.UserName ?? "管理者";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">後台首頁</h1>
+    <span class="text-muted small">@DateTime.Now.ToString("yyyy-MM-dd dddd")</span>
+</div>
+
+<!-- 歡迎卡片 -->
+<div class="card shadow mb-4">
+    <div class="card-body d-flex align-items-center">
+        <div class="me-3">
+            <i class="fas fa-user-circle fa-3x text-gray-300"></i>
+        </div>
+        <div>
+            <h4 class="mb-1 font-weight-bold text-gray-800">歡迎回來，@userName！</h4>
+            <p class="mb-0 text-muted">這裡是台灣發展研究學會網站後台，請由左側選單或下方捷徑開始管理網站內容。</p>
+        </div>
+    </div>
+</div>
+
+<!-- 管理捷徑 -->
+<div class="row">
+    <div class="col-lg-4 col-md-6 mb-4">
+        <a href="@Url.Action("List", "Announcement")" class="text-decoration-none">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">內容管理</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">最新消息管理</div>
+                        </div>
+                        <i class="fas fa-bullhorn fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-4">
+        <a href="@Url.Action("List", "MemberResearchManage")" class="text-decoration-none">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">內容管理</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">以文會友管理</div>
+                        </div>
+                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-4">
+        <a href="@Url.Action("List", "Banner")" class="text-decoration-none">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">版面管理</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">橫幅管理</div>
+                        </div>
+                        <i class="fas fa-image fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

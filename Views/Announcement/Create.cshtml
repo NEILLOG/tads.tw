@@ -69,8 +69,10 @@
                 </div>
 
                 <div class="col-12 form-group mb-3">
-                    @Html.LabelFor(x => x.NewsExtendItem.News.FileId, "上傳圖片：", new { @class = "form-label" })
-                    <input type="file" name="NewsFile" class="form-control" accept=".png,.jpg,.jpeg" />
+                    @Html.LabelFor(x => x.NewsExtendItem.News.FileId, "上傳附件（前台可下載）：", new { @class = "form-label" })
+                    <input type="file" name="NewsFile" class="form-control"
+                           accept=".png,.jpg,.jpeg,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.txt" />
+                    <small class="text-muted">支援圖片與常見文件（pdf / word / excel / ppt / zip 等），前台消息內頁會提供下載連結。</small>
                     @Html.HiddenFor(x => x.NewsExtendItem.News.FileId, new { @id = "FileId" })
                 </div>
             </div>

@@ -12,9 +12,18 @@ namespace TADS_Web.Service
         {
             try
             {
-                IQueryable<NewsExtend> dataList = (from news in _context.TbNews
-                                                   where news.IsDelete == false
-                                                   select new NewsExtend { News = news });
+                IQueryable<NewsExtend> dataList =
+                    from news in _context.TbNews
+                    where news.IsDelete == false
+                    join file in _context.TbFileInfo.Where(x => !x.IsDelete)
+                        on news.FileId equals file.FileId into fileGroup
+                    from file in fileGroup.DefaultIfEmpty()
+                    select new NewsExtend
+                    {
+                        News = news,
+                        FileUrl = file != null ? "/" + file.FilePath : null,
+                        FileName = file != null ? file.FileName : null
+                    };
                 return dataList;
             }
             catch (Exception ex)
@@ -28,9 +37,18 @@ namespace TADS_Web.Service
         {
             try
             {
-                IQueryable<NewsExtend> dataList = (from news in _context.TbNews
-                                                   where news.IsDelete == false && news.Id == id
-                                                   select new NewsExtend { News = news });
+                IQueryable<NewsExtend> dataList =
+                    from news in _context.TbNews
+                    where news.IsDelete == false && news.Id == id
+                    join file in _context.TbFileInfo.Where(x => !x.IsDelete)
+                        on news.FileId equals file.FileId into fileGroup
+                    from file in fileGroup.DefaultIfEmpty()
+                    select new NewsExtend
+                    {
+                        News = news,
+                        FileUrl = file != null ? "/" + file.FilePath : null,
+                        FileName = file != null ? file.FileName : null
+                    };
                 return dataList;
             }
             catch (Exception ex)

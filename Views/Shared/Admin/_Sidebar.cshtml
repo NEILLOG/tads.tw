@@ -1,25 +1,25 @@
 @{
-    var brandUrl = Url.Action("Index", "Home");
+    var brandUrl = Url.Action("Welcome", "Sdatback");
 }
 
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@brandUrl">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+        <div class="sidebar-brand-icon">
+            <i class="fas fa-cog"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">後台管理</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
+    <!-- Nav Item - 返回前台 -->
     <li class="nav-item">
         <a class="nav-link" href="@Url.Action("Index", "Home")">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <i class="fas fa-fw fa-arrow-left"></i>
+            <span>返回前台</span>
         </a>
     </li>
 
@@ -31,45 +31,47 @@
         管理功能
     </div>
 
-    <!-- Nav Item - 使用者管理 -->
+    @* 使用者管理（暫時隱藏）
     <li class="nav-item">
         <a class="nav-link" href="#">
             <i class="fas fa-fw fa-users"></i>
             <span>使用者管理</span>
         </a>
     </li>
+    *@
 
-    <!-- Nav Item - 公告管理 -->
+    <!-- Nav Item - 最新消息管理 -->
     <li class="nav-item">
         <a class="nav-link" href="@Url.Action("List", "Announcement")">
             <i class="fas fa-fw fa-bullhorn"></i>
-            <span>公告管理</span>
+            <span>最新消息管理</span>
         </a>
     </li>
 
-    <!-- Nav Item - 會員研究成果管理 -->
+    <!-- Nav Item - 以文會友管理 -->
     <li class="nav-item">
         <a class="nav-link" href="@Url.Action("List", "MemberResearchManage")">
             <i class="fas fa-fw fa-book"></i>
-            <span>會員研究成果管理</span>
+            <span>以文會友管理</span>
         </a>
     </li>
 
     <!-- Nav Item - 橫幅管理 -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="@Url.Action("List", "Banner")">
             <i class="fas fa-fw fa-image"></i>
             <span>橫幅管理</span>
         </a>
     </li>
 
-    <!-- Nav Item - 內頁管理 -->
+    @* 內頁管理（暫時隱藏）
     <li class="nav-item">
         <a class="nav-link" href="#">
             <i class="fas fa-fw fa-file-alt"></i>
             <span>內頁管理</span>
         </a>
     </li>
+    *@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

@@ -1,0 +1,56 @@
+@model TADS_Web.Models.VM_Banner
+@{
+    ViewData["Title"] = "編輯橫幅";
+}
+
+<form id="frm" method="post" asp-controller="Banner" asp-action="Modify" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">編輯橫幅</h1>
+        <div>
+            <a class="btn btn-light" href="@Url.Action("List", "Banner")">返回</a>
+            <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.isPublish, "狀態", new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.isPublish, Model.ddlPublish, new { @class = "form-control", id = "ddlPublish" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.BannerItem.Banner.FileId, "橫幅圖片：", new { @class = "form-label" })
+                    @if (!string.IsNullOrEmpty(Model.BannerItem?.ImageUrl))
+                    {
+                        <div class="mb-2">
+                            <img src="@Model.BannerItem.ImageUrl" alt="" style="max-width:100%;max-height:200px;object-fit:contain;" />
+                        </div>
+                    }
+                    <input type="file" name="BannerFile" class="form-control" accept=".png,.jpg,.jpeg,.webp" />
+                    <small class="text-muted">若需更換圖片，請選擇新檔案上傳。建議使用寬幅圖片（例如 1920×700）。</small>
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.BannerItem.Banner.Title, "標題／替代文字（alt）：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.BannerItem.Banner.Title, new { @class = "form-control", placeholder = "供 SEO 與無障礙辨識，選填" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.BannerItem.Banner.LinkUrl, "點擊連結：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.BannerItem.Banner.LinkUrl, new { @class = "form-control", placeholder = "例：https://... 或 /Home/News；留空則不可點擊" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.BannerItem.Banner.SortOrder, "排序（數字越小越前面）：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.BannerItem.Banner.SortOrder, new { @class = "form-control", type = "number" })
+                </div>
+
+                @Html.HiddenFor(x => x.BannerItem.Banner.Id)
+            </div>
+        </div>
+    </div>
+</form>

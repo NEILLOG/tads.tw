@@ -11,17 +11,26 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly MemberResearchService _memberResearchService;
     private readonly NewsService _newsService;
+    private readonly BannerService _bannerService;
 
-    public HomeController(ILogger<HomeController> logger, MemberResearchService memberResearchService, NewsService newsService)
+    public HomeController(ILogger<HomeController> logger, MemberResearchService memberResearchService, NewsService newsService, BannerService bannerService)
     {
         _logger = logger;
         _memberResearchService = memberResearchService;
         _newsService = newsService;
+        _bannerService = bannerService;
     }
 
     public IActionResult Index()
     {
         string message = string.Empty;
+
+        // 首頁橫幅（已上架，依排序）
+        ViewBag.Banners = _bannerService.GetExtendList(ref message)?
+            .Where(x => x.Banner.IsPublish && x.ImageUrl != null)
+            .OrderBy(x => x.Banner.SortOrder)
+            .ThenByDescending(x => x.Banner.CreateDate)
+            .ToList() ?? new List<BannerExtend>();
 
         // 最新消息最新五筆
         IQueryable<NewsExtend>? newsList = _newsService.GetNewsExtendList(ref message);

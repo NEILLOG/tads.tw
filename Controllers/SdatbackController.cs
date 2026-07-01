@@ -23,12 +23,12 @@ namespace TADS_Web.Controllers
             return HttpContext.Session.Get<UserSessionModel>(SessionStruct.Login.UserInfo);
         }
 
-        public IActionResult Sample()
+        public IActionResult Welcome()
         {
             if (GetUserInfo() == null)
                 return RedirectToAction("Login");
 
-            ViewData["Title"] = "Sample Page";
+            ViewData["Title"] = "後台首頁";
             return View();
         }
 
@@ -37,7 +37,7 @@ namespace TADS_Web.Controllers
         {
             // 已登入則直接導向後台
             if (GetUserInfo() != null)
-                return RedirectToAction("Sample");
+                return RedirectToAction("Welcome");
 
             ViewData["Title"] = "登入";
             return View();
@@ -73,7 +73,7 @@ namespace TADS_Web.Controllers
             await _userService.UpdateLastLoginTime(user);
             await _allCommonService.LoginRecord("Backend", "登入成功", email, user.Pid.ToString());
 
-            return RedirectToAction("Sample");
+            return RedirectToAction("Welcome");
         }
 
         public IActionResult Logout()

@@ -3,7 +3,77 @@
     ViewData["Title"] = "Home Page";
 }
 
-<img src="~/img/banner.jpg" class="w-100 d-block" alt="" style="max-height: 700px; object-fit: cover;" />
+@{
+    var banners = ViewBag.Banners as List<TADS_Web.Models.Extend.BannerExtend> ?? new List<TADS_Web.Models.Extend.BannerExtend>();
+}
+
+@functions {
+    // 依是否有連結，將圖片包成可點擊或純顯示
+    string BannerImgStyle => "max-height: 700px; object-fit: cover;";
+}
+
+@if (banners.Count == 0)
+{
+    <!-- 無橫幅資料時的預設圖片 -->
+    <img src="~/img/banner.jpg" class="w-100 d-block" alt="" style="@BannerImgStyle" />
+}
+else if (banners.Count == 1)
+{
+    var b = banners[0];
+    @if (!string.IsNullOrEmpty(b.Banner.LinkUrl))
+    {
+        <a href="@b.Banner.LinkUrl">
+            <img src="@b.ImageUrl" class="w-100 d-block" alt="@b.Banner.Title" style="@BannerImgStyle" />
+        </a>
+    }
+    else
+    {
+        <img src="@b.ImageUrl" class="w-100 d-block" alt="@b.Banner.Title" style="@BannerImgStyle" />
+    }
+}
+else
+{
+    <div id="homeBannerCarousel" class="carousel slide" data-bs-ride="carousel">
+        <!-- 圓點指示器 -->
+        <div class="carousel-indicators">
+            @for (int i = 0; i < banners.Count; i++)
+            {
+                <button type="button" data-bs-target="#homeBannerCarousel" data-bs-slide-to="@i"
+                        class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")"
+                        aria-label="橫幅 @(i + 1)"></button>
+            }
+        </div>
+
+        <div class="carousel-inner">
+            @for (int i = 0; i < banners.Count; i++)
+            {
+                var b = banners[i];
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    @if (!string.IsNullOrEmpty(b.Banner.LinkUrl))
+                    {
+                        <a href="@b.Banner.LinkUrl">
+                            <img src="@b.ImageUrl" class="w-100 d-block" alt="@b.Banner.Title" style="@BannerImgStyle" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img src="@b.ImageUrl" class="w-100 d-block" alt="@b.Banner.Title" style="@BannerImgStyle" />
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- 左右切換箭頭 -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeBannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">上一張</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homeBannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">下一張</span>
+        </button>
+    </div>
+}
 
 <!-- Who we are, out commitment -->
 <section class="section section-default section-no-border my-0">
@@ -50,15 +120,15 @@
                 <p class="font-do-hyeon text-13 text-primary mb-0 font-weight-bold me-2" style="line-height: 1em; color: #FEAE00 !important;">
                     10/31<span class="text-1">SAT</span> ~ 11/1<span class="text-1">SUN</span>, 2026
                 </p>
-                <a href="https://forms.gle/ZW3gTUpjuKjbFj7MA" target="_blank" rel="noopener noreferrer"
+                <a href="#" tabindex="-1" aria-disabled="true"
                     class="btn btn-primary btn-modern text-uppercase font-weight-bold text-4 ms-2 py-1 px-2 font-do-hyeon"
-                    style="vertical-align: super;">
+                    style="vertical-align: super; pointer-events: none; cursor: default;">
                         <span class="text-2">CALL FOR PAPERS 徵稿期間</span><br />
                         <span class="text-4">5/4~6/30</span></a>
-                <a href="https://forms.gle/ZW3gTUpjuKjbFj7MA" target="_blank" rel="noopener noreferrer"
-                    class="btn btn-primary btn-modern text-uppercase font-weight-bold text-6 ms-2 py-3 px-1 font-do-hyeon"
-                    style="vertical-align: super; background-color: #FEAE00; height:65px; padding-top:13px !important;padding-left: 20px !important;padding-right: 20px !important;">
-                        <div>Registration 報名</div>
+                <a href="#" tabindex="-1" aria-disabled="true"
+                    class="btn btn-primary btn-modern text-uppercase font-weight-bold text-6 ms-2 py-3 px-3 font-do-hyeon d-flex align-items-center align-self-stretch"
+                    style="vertical-align: super; background-color: #FEAE00; line-height: 1.3; text-align: center; font-size: 1.3em !important; pointer-events: none; cursor: default;">
+                        <div>感謝支持！本屆年會已結束徵稿</div>
                 </a>
                 
             </div>

@@ -1,11 +1,25 @@
 @model TADS_Web.Models.VM_MemberResearch
 @{
-    ViewData["Title"] = "會員研究成果管理";
+    ViewData["Title"] = "以文會友管理";
 }
+
+<style>
+    /* 短欄位不換行（避免中文被逼成直排） */
+    .list-table th,
+    .list-table td.cell-nowrap { white-space: nowrap; }
+    .list-table th,
+    .list-table td { vertical-align: middle; }
+    /* 標題允許換行並限制寬度，避免超長英文標題把整個表格撐爆 */
+    .list-table td.cell-title { white-space: normal; min-width: 240px; max-width: 460px; }
+    .list-table td.cell-author { white-space: normal; min-width: 160px; }
+    /* 管理按鈕維持同一列、不換行 */
+    .list-table td.cell-actions { white-space: nowrap; }
+    .list-table td.cell-actions .btn { margin-left: .2rem; }
+</style>
 
 <!-- 頁面標題列：左標題、右新增按鈕 -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">會員研究成果管理</h1>
+    <h1 class="h3 mb-0 text-gray-800">以文會友管理</h1>
     <a class="btn btn-primary" href="@Url.Action("Create", "MemberResearchManage")">
         <i class="fas fa-plus fa-sm"></i> 新增研究成果
     </a>
@@ -37,10 +51,9 @@
 
                 <!-- 資料清單 -->
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-hover list-table">
                         <thead class="table-light">
                             <tr>
-                                <th>項次</th>
                                 <th>封面</th>
                                 <th>標題</th>
                                 <th>作者資訊</th>
@@ -57,18 +70,17 @@
                                     string status = item.Research.IsPublish ? "上架中" : "已下架";
                                     string buttonInfo = item.Research.IsPublish ? "下架" : "上架";
                                     <tr>
-                                        <td>@(Model.ResearchList.IndexOf(item) + 1)</td>
-                                        <td>
+                                        <td class="cell-nowrap">
                                             @if (!string.IsNullOrEmpty(item.CoverUrl))
                                             {
                                                 <img src="@item.CoverUrl" alt="" style="width:48px;height:48px;object-fit:cover;" />
                                             }
                                         </td>
-                                        <td>@item.Research.Title</td>
-                                        <td>@item.Research.AuthorInfo</td>
-                                        <td>@item.Research.SortOrder</td>
-                                        <td>@status</td>
-                                        <td class="text-end">
+                                        <td class="cell-title">@item.Research.Title</td>
+                                        <td class="cell-author">@item.Research.AuthorInfo</td>
+                                        <td class="cell-nowrap">@item.Research.SortOrder</td>
+                                        <td class="cell-nowrap">@status</td>
+                                        <td class="cell-actions text-end">
                                             <a class="btn btn-primary btn-sm" href="@(Url.Action("Modify", "MemberResearchManage", new { id = item.Research.Id }))">編輯</a>
                                             @if (buttonInfo == "上架")
                                             {
@@ -85,7 +97,7 @@
                             }
                             else
                             {
-                                <tr><td colspan="7" class="text-center">目前暫無資料</td></tr>
+                                <tr><td colspan="6" class="text-center">目前暫無資料</td></tr>
                             }
                         </tbody>
                     </table>

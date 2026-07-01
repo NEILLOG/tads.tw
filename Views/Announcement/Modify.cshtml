@@ -80,8 +80,19 @@
                 </div>
 
                 <div class="col-12 form-group mb-3">
-                    @Html.LabelFor(x => x.NewsExtendItem.News.FileId, "上傳圖片：", new { @class = "form-label" })
-                    <input type="file" name="NewsFile" class="form-control" accept=".png,.jpg,.jpeg" />
+                    @Html.LabelFor(x => x.NewsExtendItem.News.FileId, "上傳附件（前台可下載）：", new { @class = "form-label" })
+                    @if (!string.IsNullOrEmpty(Model.NewsExtendItem?.FileUrl))
+                    {
+                        <div class="mb-2">
+                            目前附件：
+                            <a href="@Model.NewsExtendItem.FileUrl" download="@Model.NewsExtendItem.FileName" target="_blank" rel="noopener noreferrer">
+                                @(string.IsNullOrEmpty(Model.NewsExtendItem.FileName) ? "下載" : Model.NewsExtendItem.FileName)
+                            </a>
+                        </div>
+                    }
+                    <input type="file" name="NewsFile" class="form-control"
+                           accept=".png,.jpg,.jpeg,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.txt" />
+                    <small class="text-muted">支援圖片與常見文件（pdf / word / excel / ppt / zip 等）。若需更換附件，請選擇新檔案上傳。</small>
                     @Html.HiddenFor(x => x.NewsExtendItem.News.FileId, new { @id = "FileId" })
                 </div>
 
