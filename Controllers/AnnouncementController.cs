@@ -333,6 +333,47 @@ namespace TADS_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImage(IFormFile upload)
+        {
+            UserSessionModel userinfo = GetUserInfo();
+            string Feature = "公告訊息-內文圖片上傳", Action = "上傳";
+
+            try
+            {
+                if (upload == null || upload.Length == 0)
+                    return Json(new { error = new { message = "未接收到檔案" } });
+
+                string[] allowedExt = { ".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp" };
+                string ext = Path.GetExtension(upload.FileName).ToLowerInvariant();
+                if (!allowedExt.Contains(ext))
+                    return Json(new { error = new { message = "僅允許上傳圖片檔（jpg、jpeg、png、gif、webp、bmp）" } });
+
+                const long maxSize = 5 * 1024 * 1024;
+                if (upload.Length > maxSize)
+                    return Json(new { error = new { message = "圖片大小不可超過 5MB" } });
+
+                var photo_upload = await _fileService.FileUploadAsync(upload, "NewsContentImages", "NewsContentImages");
+                if (photo_upload.IsSuccess && !string.IsNullOrEmpty(photo_upload.FilePath))
+                {
+                    string url = "/" + photo_upload.FilePath;
+                    await _commonService.OperateLog(userinfo.UserID, Feature, Action, photo_upload.FileID, upload.FileName, IsSuccess: true);
+                    return Json(new { url });
+                }
+
+                _message += photo_upload.Message;
+                await _allCommonService.Error_Record("Backend", Feature + "-" + Action, _message);
+                return Json(new { error = new { message = "圖片上傳失敗，請稍後再試一次" } });
+            }
+            catch (Exception ex)
+            {
+                _message += ex.ToString();
+                await _allCommonService.Error_Record("Backend", Feature + "-" + Action, _message);
+                return Json(new { error = new { message = "圖片上傳發生錯誤，請聯絡技術人員" } });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
         {
             JsonResponse<TbNews> result = new JsonResponse<TbNews>();

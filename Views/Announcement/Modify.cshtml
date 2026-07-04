@@ -109,6 +109,43 @@
     <script type="text/javascript">
         let contentEditor = null;
 
+        // 自訂圖片上傳轉接器（classic build 未內建 SimpleUploadAdapter，改用 FileRepository 自行實作）
+        const CK_UPLOAD_URL = '@Url.Action("UploadImage", "Announcement")';
+
+        class NewsUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+            upload() {
+                return this.loader.file.then(file => new Promise((resolve, reject) => {
+                    const data = new FormData();
+                    data.append('upload', file);
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', CK_UPLOAD_URL, true);
+                    xhr.responseType = 'json';
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                    if (token) xhr.setRequestHeader('X-XSRF-TOKEN', token.value);
+
+                    xhr.addEventListener('load', () => {
+                        const res = xhr.response;
+                        if (!res || res.error || !res.url) {
+                            return reject((res && res.error && res.error.message) || '圖片上傳失敗');
+                        }
+                        resolve({ default: res.url });
+                    });
+                    xhr.addEventListener('error', () => reject('圖片上傳失敗'));
+                    xhr.addEventListener('abort', () => reject());
+                    xhr.send(data);
+                }));
+            }
+            abort() { }
+        }
+
+        function NewsUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new NewsUploadAdapter(loader);
+        }
+
         $(document).ready(function () {
             $('#NewsExtendItem_News_DisplayDate').daterangepicker({
                 singleDatePicker: true,
@@ -116,7 +153,9 @@
             });
 
             ClassicEditor
-                .create(document.querySelector('#Contents'))
+                .create(document.querySelector('#Contents'), {
+                    extraPlugins: [NewsUploadAdapterPlugin]
+                })
                 .then(editor => { contentEditor = editor; })
                 .catch(error => { console.error(error); });
 
