@@ -1,0 +1,106 @@
+@model TADS_Web.Models.VM_AnnualMeeting
+@{
+    ViewData["Title"] = "新增歷屆年會";
+}
+
+<form id="frm" method="post" asp-controller="AnnualMeeting" asp-action="Create" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <!-- 頁面標題列：左標題、右返回/儲存 -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">新增歷屆年會</h1>
+        <div>
+            <a class="btn btn-light" href="@Url.Action("List", "AnnualMeeting")">返回</a>
+            <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.isPublish, "狀態", new { @class = "form-label" })
+                    @Html.DropDownListFor(x => x.isPublish, Model.ddlPublish, new { @class = "form-control", id = "ddlPublish" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.AnnualMeetingItem.Title, "標題：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.AnnualMeetingItem.Title, new { @class = "form-control", placeholder = "請輸入標題（例：第 XX 屆年會）" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.AnnualMeetingItem.SortOrder, "排序（數字越小越前面）：", new { @class = "form-label" })
+                    @Html.TextBoxFor(x => x.AnnualMeetingItem.SortOrder, new { @class = "form-control", type = "number", value = "0" })
+                </div>
+
+                <div class="col-12 form-group mb-3">
+                    <span class="text-danger">*</span>
+                    @Html.LabelFor(x => x.AnnualMeetingItem.Contents, "內文：", new { @class = "form-label" })
+                    @Html.TextAreaFor(x => x.AnnualMeetingItem.Contents, new { @class = "form-control", rows = "12", id = "Contents" })
+                    <small class="text-muted">可插入表格、文字、圖片；圖片可直接貼上或使用工具列上傳。</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script type="text/javascript">
+        let contentEditor = null;
+
+        // 自訂圖片上傳轉接器（classic build 未內建 SimpleUploadAdapter，改用 FileRepository 自行實作）
+        const CK_UPLOAD_URL = '@Url.Action("UploadImage", "AnnualMeeting")';
+
+        class AnnualMeetingUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+            upload() {
+                return this.loader.file.then(file => new Promise((resolve, reject) => {
+                    const data = new FormData();
+                    data.append('upload', file);
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', CK_UPLOAD_URL, true);
+                    xhr.responseType = 'json';
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                    if (token) xhr.setRequestHeader('X-XSRF-TOKEN', token.value);
+
+                    xhr.addEventListener('load', () => {
+                        const res = xhr.response;
+                        if (!res || res.error || !res.url) {
+                            return reject((res && res.error && res.error.message) || '圖片上傳失敗');
+                        }
+                        resolve({ default: res.url });
+                    });
+                    xhr.addEventListener('error', () => reject('圖片上傳失敗'));
+                    xhr.addEventListener('abort', () => reject());
+                    xhr.send(data);
+                }));
+            }
+            abort() { }
+        }
+
+        function AnnualMeetingUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new AnnualMeetingUploadAdapter(loader);
+        }
+
+        $(document).ready(function () {
+            ClassicEditor
+                .create(document.querySelector('#Contents'), {
+                    extraPlugins: [AnnualMeetingUploadAdapterPlugin]
+                })
+                .then(editor => { contentEditor = editor; })
+                .catch(error => { console.error(error); });
+
+            // 送出前把編輯器內容同步回 textarea
+            $('#frm').on('submit', function () {
+                if (contentEditor) {
+                    document.querySelector('#Contents').value = contentEditor.getData();
+                }
+            });
+        });
+    </script>
+}

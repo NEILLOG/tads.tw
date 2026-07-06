@@ -11,6 +11,7 @@ namespace TADS_Web.Models.DB
         public virtual DbSet<TbNews> TbNews { get; set; } = null!;
         public virtual DbSet<TbMemberResearch> TbMemberResearch { get; set; } = null!;
         public virtual DbSet<TbBanner> TbBanner { get; set; } = null!;
+        public virtual DbSet<TbAnnualMeeting> TbAnnualMeeting { get; set; } = null!;
         public virtual DbSet<TbFileInfo> TbFileInfo { get; set; } = null!;
         public virtual DbSet<TbIdSummary> TbIdSummary { get; set; } = null!;
         public virtual DbSet<TbLog> TbLog { get; set; } = null!;
@@ -52,6 +53,14 @@ namespace TADS_Web.Models.DB
                 entity.Property(e => e.FileId).HasMaxLength(15).HasColumnName("FileID");
                 entity.Property(e => e.Title).HasMaxLength(200);
                 entity.Property(e => e.LinkUrl).HasMaxLength(500);
+                entity.Property(e => e.CreateUser).HasMaxLength(10);
+                entity.Property(e => e.ModifyUser).HasMaxLength(10);
+            });
+
+            modelBuilder.Entity<TbAnnualMeeting>(entity =>
+            {
+                entity.Property(e => e.Id).HasMaxLength(10).HasColumnName("ID");
+                entity.Property(e => e.Title).HasMaxLength(200);
                 entity.Property(e => e.CreateUser).HasMaxLength(10);
                 entity.Property(e => e.ModifyUser).HasMaxLength(10);
             });
