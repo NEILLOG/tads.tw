@@ -12,6 +12,9 @@ namespace TADS_Web.Models.DB
         public virtual DbSet<TbMemberResearch> TbMemberResearch { get; set; } = null!;
         public virtual DbSet<TbBanner> TbBanner { get; set; } = null!;
         public virtual DbSet<TbAnnualMeeting> TbAnnualMeeting { get; set; } = null!;
+        public virtual DbSet<TbPageContent> TbPageContent { get; set; } = null!;
+        public virtual DbSet<TbAboutContent> TbAboutContent { get; set; } = null!;
+        public virtual DbSet<TbAboutPricing> TbAboutPricing { get; set; } = null!;
         public virtual DbSet<TbFileInfo> TbFileInfo { get; set; } = null!;
         public virtual DbSet<TbIdSummary> TbIdSummary { get; set; } = null!;
         public virtual DbSet<TbLog> TbLog { get; set; } = null!;
@@ -63,6 +66,35 @@ namespace TADS_Web.Models.DB
                 entity.Property(e => e.Title).HasMaxLength(200);
                 entity.Property(e => e.CreateUser).HasMaxLength(10);
                 entity.Property(e => e.ModifyUser).HasMaxLength(10);
+            });
+
+            modelBuilder.Entity<TbPageContent>(entity =>
+            {
+                entity.HasKey(e => e.PageCode).HasName("PK_TbPageContent");
+                entity.Property(e => e.PageCode).HasMaxLength(30);
+                entity.Property(e => e.PageName).HasMaxLength(50);
+                entity.Property(e => e.CreateUser).HasMaxLength(10);
+                entity.Property(e => e.ModifyUser).HasMaxLength(10);
+            });
+
+            modelBuilder.Entity<TbAboutContent>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("PK_TbAboutContent");
+                entity.Property(e => e.Id).HasMaxLength(20);
+                entity.Property(e => e.IntroImageFileId).HasMaxLength(15);
+                entity.Property(e => e.OrgChartFileId).HasMaxLength(15);
+                entity.Property(e => e.ConstitutionPdfFileId).HasMaxLength(15);
+                entity.Property(e => e.CreateUser).HasMaxLength(10);
+                entity.Property(e => e.ModifyUser).HasMaxLength(10);
+            });
+
+            modelBuilder.Entity<TbAboutPricing>(entity =>
+            {
+                entity.HasKey(e => e.Id).HasName("PK_TbAboutPricing");
+                entity.Property(e => e.Id).HasMaxLength(10);
+                entity.Property(e => e.NameZh).HasMaxLength(100);
+                entity.Property(e => e.NameEn).HasMaxLength(150);
+                entity.Property(e => e.Price).HasMaxLength(30);
             });
 
             modelBuilder.Entity<TbFileInfo>(entity =>

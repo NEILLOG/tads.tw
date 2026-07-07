@@ -1,0 +1,191 @@
+@model TADS_Web.Models.VM_AboutContent
+@{
+    ViewData["Title"] = "關於我們管理";
+    var pricingCategories = new[] { "入會費", "年度會費", "年度會費", "年度會費", "年度會費", "終身會費" };
+}
+
+<style>
+    .about-section-card .form-label { font-weight: 600; }
+    .about-section-title { border-left: 4px solid #4e73df; padding-left: 10px; }
+    .pricing-edit-card { border: 1px solid #e3e6f0; border-radius: 6px; padding: 16px; height: 100%; }
+    .pricing-edit-card .cat-badge { font-size: .8rem; color: #fff; background: #4e73df; border-radius: 3px; padding: 2px 8px; }
+    .file-current { font-size: .85rem; }
+    .file-current img { max-height: 120px; border: 1px solid #e3e6f0; border-radius: 4px; }
+</style>
+
+<form id="frm" method="post" asp-controller="AboutManage" asp-action="Edit" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">關於我們管理</h1>
+        <div>
+            <a class="btn btn-light" href="@Url.Action("Index", "About")" target="_blank">前台預覽</a>
+            <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+
+    <!-- ===== Introduce 介紹 ===== -->
+    <div class="card shadow mb-4 about-section-card">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary about-section-title">Introduce 介紹</h6></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 form-group mb-3">
+                    <label class="form-label">學會名稱（中文）</label>
+                    <input asp-for="AboutItem.IntroNameZh" class="form-control" />
+                </div>
+                <div class="col-md-6 form-group mb-3">
+                    <label class="form-label">學會名稱（英文）</label>
+                    <input asp-for="AboutItem.IntroNameEn" class="form-control" />
+                </div>
+                <div class="col-12 form-group mb-3">
+                    <label class="form-label">簡介短文（左側）</label>
+                    <textarea asp-for="AboutItem.IntroSummary" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="col-12 form-group mb-3">
+                    <label class="form-label">詳細內文（右側）</label>
+                    <textarea asp-for="AboutItem.IntroDetail" class="form-control" rows="10"></textarea>
+                    <small class="text-muted">以「空一行」分段，每段會自動變成一個段落。</small>
+                </div>
+                <div class="col-12 form-group mb-3">
+                    <label class="form-label">介紹圖片（上傳新檔即覆蓋舊圖）</label>
+                    @if (!string.IsNullOrEmpty(Model.IntroImageUrl))
+                    {
+                        <div class="file-current mb-2"><img src="@Model.IntroImageUrl" alt="目前介紹圖片" /></div>
+                    }
+                    else
+                    {
+                        <div class="file-current mb-2 text-muted">目前使用預設圖片 /img/about_fig.jpg</div>
+                    }
+                    <input type="file" name="IntroImageFile" class="form-control" accept="image/*" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Organizational Chart 組織圖 ===== -->
+    <div class="card shadow mb-4 about-section-card">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary about-section-title">Organizational Chart 組織圖</h6></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 form-group mb-3">
+                    <label class="form-label">組織結構圖（上傳新檔即覆蓋舊圖）</label>
+                    @if (!string.IsNullOrEmpty(Model.OrgChartUrl))
+                    {
+                        <div class="file-current mb-2"><img src="@Model.OrgChartUrl" alt="目前組織圖" /></div>
+                    }
+                    else
+                    {
+                        <div class="file-current mb-2 text-muted">目前使用預設圖片 /img/Organizational_Structure.png</div>
+                    }
+                    <input type="file" name="OrgChartFile" class="form-control" accept="image/*" />
+                </div>
+
+                <div class="col-md-3 form-group mb-3">
+                    <label class="form-label">理監事屆數（數字）</label>
+                    <input asp-for="AboutItem.BoardTermNo" type="number" min="1" class="form-control" />
+                    <small class="text-muted">例：7 → 顯示「第七屆 / 7th」</small>
+                </div>
+
+                <div class="col-12"><hr class="my-2"><p class="font-weight-bold mb-2">理監事名單（各職稱名單，留空則該列不顯示）</p></div>
+
+                <div class="col-md-6 form-group mb-3"><label class="form-label">理事長 President</label><input asp-for="AboutItem.BoardPresident" class="form-control" /></div>
+                <div class="col-md-6 form-group mb-3"><label class="form-label">副理事長 Vice President</label><input asp-for="AboutItem.BoardVicePresident" class="form-control" /></div>
+                <div class="col-12 form-group mb-3"><label class="form-label">常務理事 Executive Directors</label><input asp-for="AboutItem.BoardExecDirectors" class="form-control" /></div>
+                <div class="col-12 form-group mb-3"><label class="form-label">理事 Directors</label><input asp-for="AboutItem.BoardDirectors" class="form-control" /></div>
+                <div class="col-md-6 form-group mb-3"><label class="form-label">常務監事 Executive Supervisor</label><input asp-for="AboutItem.BoardExecSupervisor" class="form-control" /></div>
+                <div class="col-md-6 form-group mb-3"><label class="form-label">監事 Supervisors</label><input asp-for="AboutItem.BoardSupervisors" class="form-control" /></div>
+                <div class="col-md-6 form-group mb-3"><label class="form-label">秘書長 Secretary-General</label><input asp-for="AboutItem.BoardSecretaryGeneral" class="form-control" /></div>
+                <div class="col-md-6 form-group mb-3"><label class="form-label">執行秘書 Executive Secretary</label><input asp-for="AboutItem.BoardExecSecretary" class="form-control" /></div>
+
+                <div class="col-12 form-group mb-0">
+                    <label class="form-label">歷屆理監事名單下載連結</label>
+                    <input asp-for="AboutItem.PastBoardListUrl" class="form-control" placeholder="https://..." />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Membership Application 入會申請 ===== -->
+    <div class="card shadow mb-4 about-section-card">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary about-section-title">Membership Application 入會申請</h6></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 form-group mb-3">
+                    <label class="form-label">中文邀請文</label>
+                    <textarea asp-for="AboutItem.MembershipInviteZh" class="form-control" rows="6"></textarea>
+                </div>
+                <div class="col-md-6 form-group mb-3">
+                    <label class="form-label">英文邀請文</label>
+                    <textarea asp-for="AboutItem.MembershipInviteEn" class="form-control" rows="6"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Membership Fees 會費價目表 ===== -->
+    <div class="card shadow mb-4 about-section-card">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary about-section-title">Membership Fees 會費價目表</h6></div>
+        <div class="card-body">
+            <div class="alert alert-info py-2">分類色帶（入會費／年度會費／終身會費）與卡片顏色、單位固定；此處僅編輯名稱、金額與中英說明。</div>
+            <div class="row">
+                @for (int i = 0; i < Model.PricingList.Count; i++)
+                {
+                    string cat = i < pricingCategories.Length ? pricingCategories[i] : "";
+                    <div class="col-lg-6 col-xl-4 mb-3">
+                        <div class="pricing-edit-card">
+                            <div class="mb-2"><span class="cat-badge">@cat</span></div>
+                            <input type="hidden" asp-for="PricingList[i].Id" />
+                            <input type="hidden" asp-for="PricingList[i].SortOrder" />
+                            <div class="form-group mb-2"><label class="form-label mb-1">名稱（中文）</label><input asp-for="PricingList[i].NameZh" class="form-control form-control-sm" /></div>
+                            <div class="form-group mb-2"><label class="form-label mb-1">名稱（英文）</label><input asp-for="PricingList[i].NameEn" class="form-control form-control-sm" /></div>
+                            <div class="form-group mb-2"><label class="form-label mb-1">金額（NTD$）</label><input asp-for="PricingList[i].Price" class="form-control form-control-sm" placeholder="例：1,000" /></div>
+                            <div class="form-group mb-2"><label class="form-label mb-1">說明（中文）</label><textarea asp-for="PricingList[i].DescZh" class="form-control form-control-sm" rows="3"></textarea></div>
+                            <div class="form-group mb-0"><label class="form-label mb-1">說明（英文）</label><textarea asp-for="PricingList[i].DescEn" class="form-control form-control-sm" rows="3"></textarea></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Constitution 章程 ===== -->
+    <div class="card shadow mb-4 about-section-card">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary about-section-title">Constitution 章程</h6></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 form-group mb-3">
+                    <label class="form-label">章程內文（純文字，保留換行）</label>
+                    <textarea asp-for="AboutItem.ConstitutionText" class="form-control" rows="16" style="font-family:inherit;"></textarea>
+                </div>
+                <div class="col-12 form-group mb-0">
+                    <label class="form-label">章程下載檔（PDF，上傳新檔即覆蓋）</label>
+                    @if (!string.IsNullOrEmpty(Model.ConstitutionPdfUrl))
+                    {
+                        <div class="file-current mb-2"><a href="@Model.ConstitutionPdfUrl" target="_blank"><i class="fas fa-file-pdf"></i> 目前檔案</a></div>
+                    }
+                    else
+                    {
+                        <div class="file-current mb-2 text-muted">目前使用預設檔 /static/Constitution.1081025.pdf</div>
+                    }
+                    <input type="file" name="ConstitutionPdfFile" class="form-control" accept="application/pdf" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Member Research 以文會友 ===== -->
+    <div class="card shadow mb-4 about-section-card">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary about-section-title">Member Research 以文會友</h6></div>
+        <div class="card-body">
+            <div class="form-group mb-0">
+                <label class="form-label">以文會友說明文字（純文字）</label>
+                <textarea asp-for="AboutItem.MemberResearchDesc" class="form-control" rows="4"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <button type="submit" class="btn btn-primary">儲存</button>
+        <a class="btn btn-light" href="@Url.Action("Index", "About")" target="_blank">前台預覽</a>
+    </div>
+</form>

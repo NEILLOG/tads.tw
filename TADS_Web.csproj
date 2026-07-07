@@ -9,6 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- 頁面預設內容（內頁 HTML、關於我們長文）：不進 wwwroot，但需隨 publish 部署供啟動植入器讀取 -->
+    <Content Include="SeedData\**\*">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0" />

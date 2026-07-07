@@ -1,0 +1,139 @@
+@model TADS_Web.Models.VM_PageContent
+@{
+    ViewData["Title"] = "編輯內頁";
+    var pageName = Model?.PageContentItem?.PageName ?? "內頁";
+    var pageCode = Model?.PageContentItem?.PageCode ?? "";
+}
+
+<form id="frm" method="post" asp-controller="PageContent" asp-action="Modify" asp-route-code="@pageCode" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">編輯內頁 - @pageName</h1>
+        <div>
+            <a class="btn btn-light" href="@Url.Action("List", "PageContent")">返回</a>
+            <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 form-group mb-3">
+                    @Html.LabelFor(x => x.PageContentItem.Contents, "內容：", new { @class = "form-label" })
+                    @Html.TextAreaFor(x => x.PageContentItem.Contents, new { @class = "form-control", rows = "18", id = "Contents" })
+                    <small class="text-muted">
+                        可直接編輯文字、清單、表格與連結；圖片可貼上或用工具列上傳。需要貼上原始 HTML 時，點工具列的
+                        <i class="fas fa-code"></i>（原始碼）按鈕切換。從 Word 複製的內容可直接貼上。
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@* CKEditor 5 精簡 CDN 建置（僅開源 GPL 外掛，不含任何付費/協作外掛，故無 license 問題） *@
+@section CustomCss {
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css">
+}
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.umd.js"></script>
+    <script type="text/javascript">
+        let contentEditor = null;
+
+        // 自訂圖片上傳轉接器（POST 到本控制器 UploadImage，回傳 { url }）
+        const CK_UPLOAD_URL = '@Url.Action("UploadImage", "PageContent")';
+
+        class PageContentUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+            upload() {
+                return this.loader.file.then(file => new Promise((resolve, reject) => {
+                    const data = new FormData();
+                    data.append('upload', file);
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', CK_UPLOAD_URL, true);
+                    xhr.responseType = 'json';
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                    if (token) xhr.setRequestHeader('X-XSRF-TOKEN', token.value);
+
+                    xhr.addEventListener('load', () => {
+                        const res = xhr.response;
+                        if (!res || res.error || !res.url) {
+                            return reject((res && res.error && res.error.message) || '圖片上傳失敗');
+                        }
+                        resolve({ default: res.url });
+                    });
+                    xhr.addEventListener('error', () => reject('圖片上傳失敗'));
+                    xhr.addEventListener('abort', () => reject());
+                    xhr.send(data);
+                }));
+            }
+            abort() { }
+        }
+
+        function PageContentUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new PageContentUploadAdapter(loader);
+        }
+
+        $(document).ready(function () {
+            const {
+                ClassicEditor, Essentials, Paragraph, Heading,
+                Bold, Italic, Underline, Link, List, BlockQuote,
+                Table, TableToolbar, Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageUpload, AutoImage,
+                PasteFromOffice, RemoveFormat, Indent, IndentBlock,
+                SourceEditing, GeneralHtmlSupport
+            } = CKEDITOR;
+
+            ClassicEditor
+                .create(document.querySelector('#Contents'), {
+                    licenseKey: 'GPL',
+                    plugins: [
+                        Essentials, Paragraph, Heading,
+                        Bold, Italic, Underline, Link, List, BlockQuote,
+                        Table, TableToolbar, Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageUpload, AutoImage,
+                        PasteFromOffice, RemoveFormat, Indent, IndentBlock,
+                        SourceEditing, GeneralHtmlSupport
+                    ],
+                    extraPlugins: [PageContentUploadAdapterPlugin],
+                    toolbar: {
+                        items: [
+                            'undo', 'redo', '|',
+                            'sourceEditing', '|',
+                            'heading', '|',
+                            'bold', 'italic', 'underline', 'link', '|',
+                            'bulletedList', 'numberedList', '|',
+                            'outdent', 'indent', '|',
+                            'insertTable', 'blockQuote', 'uploadImage', '|',
+                            'removeFormat'
+                        ],
+                        shouldNotGroupWhenFull: true
+                    },
+                    // General HTML Support：放行所有標籤/屬性/class/style，讓原始 HTML 與 Word 貼上更保真
+                    htmlSupport: {
+                        allow: [
+                            { name: /.*/, attributes: true, classes: true, styles: true }
+                        ]
+                    },
+                    image: {
+                        toolbar: ['imageTextAlternative', '|', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|', 'resizeImage']
+                    },
+                    table: {
+                        contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                    }
+                })
+                .then(editor => { contentEditor = editor; })
+                .catch(error => { console.error(error); });
+
+            // 送出前把編輯器內容同步回 textarea
+            $('#frm').on('submit', function () {
+                if (contentEditor) {
+                    document.querySelector('#Contents').value = contentEditor.getData();
+                }
+            });
+        });
+    </script>
+}

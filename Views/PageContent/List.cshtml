@@ -1,0 +1,63 @@
+@model TADS_Web.Models.VM_PageContent
+@{
+    ViewData["Title"] = "內頁管理";
+}
+
+<style>
+    .list-table th,
+    .list-table td { vertical-align: middle; }
+    .list-table td.cell-name { min-width: 200px; }
+    .list-table td.cell-actions { white-space: nowrap; }
+</style>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">內頁管理</h1>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <div class="alert alert-info py-2 mb-3">
+                    <i class="fas fa-info-circle"></i>
+                    此處編輯的內容會直接顯示於前台對應頁面；版面外框與樣式（CSS）為固定，僅內容區塊開放編輯。
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover list-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>頁面</th>
+                                <th>最後更新時間</th>
+                                <th class="text-end">管理</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model?.PageContentList != null && Model.PageContentList.Count > 0)
+                            {
+                                foreach (var item in Model.PageContentList)
+                                {
+                                    string lastModify = item.ModifyDate?.ToString("yyyy-MM-dd HH:mm")
+                                        ?? item.CreateDate.ToString("yyyy-MM-dd HH:mm");
+                                    <tr>
+                                        <td class="cell-name">@item.PageName</td>
+                                        <td>@lastModify</td>
+                                        <td class="cell-actions text-end">
+                                            <a class="btn btn-primary btn-sm" href="@(Url.Action("Modify", "PageContent", new { code = item.PageCode }))">編輯</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="3" class="text-center">目前暫無資料</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

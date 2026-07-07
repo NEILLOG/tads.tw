@@ -1,3 +1,4 @@
+@model TADS_Web.Models.DB.TbPageContent
 @{
     Layout = "_LayoutInner";
     ViewData["Title"] = "Newsletters 學會通訊";
@@ -8,248 +9,256 @@
 <div class="container py-5">
     <div class="row">
         <div class="col">
-            <div class="blog-posts">
+            @* 內容區塊：由後台「內頁管理」編輯；若無資料則顯示預設靜態內容 *@
+            @if (!string.IsNullOrWhiteSpace(Model?.Contents))
+            {
+                @Html.Raw(Model.Contents)
+            }
+            else
+            {
+                <div class="blog-posts">
 
-                <div class="row">
+                    <div class="row">
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V6N1.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V6N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 6, No. 1" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2021年6月刊<br />Vol. 6, No. 1</h2>
-                                <ul class="mb-3">
-                                    <li>第13屆發展研究年會</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2021年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2021年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V6N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V6N1.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V6N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 6, No. 1" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2021年6月刊<br />Vol. 6, No. 1</h2>
+                                    <ul class="mb-3">
+                                        <li>第13屆發展研究年會</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2021年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2021年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V6N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V5N2.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V5N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 5, No. 2" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2020年12月刊<br />Vol. 5, No. 2</h2>
-                                <ul class="mb-3">
-                                    <li>第12屆發展研究年會成果</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2020年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2020年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V5N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V5N2.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V5N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 5, No. 2" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2020年12月刊<br />Vol. 5, No. 2</h2>
+                                    <ul class="mb-3">
+                                        <li>第12屆發展研究年會成果</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2020年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2020年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V5N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V5N1.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V5N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 5, No. 1" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2020年6月刊<br />Vol. 5, No. 1</h2>
-                                <ul class="mb-3">
-                                    <li>第12屆發展研究年會</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2020年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2020年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V5N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V5N1.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V5N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 5, No. 1" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2020年6月刊<br />Vol. 5, No. 1</h2>
+                                    <ul class="mb-3">
+                                        <li>第12屆發展研究年會</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2020年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2020年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V5N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V4N2.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V4N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 4, No. 2" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2019年12月刊<br />Vol. 4, No. 2</h2>
-                                <ul class="mb-3">
-                                    <li>第11屆發展研究年會成果</li>
-                                    <li>台灣發展研究學會第四屆理、監事</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2019年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄（2019年）</li>
-                                    <li>2019年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V4N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V4N2.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V4N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 4, No. 2" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2019年12月刊<br />Vol. 4, No. 2</h2>
+                                    <ul class="mb-3">
+                                        <li>第11屆發展研究年會成果</li>
+                                        <li>台灣發展研究學會第四屆理、監事</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2019年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄（2019年）</li>
+                                        <li>2019年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V4N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V4N1.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V4N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 4, No. 1" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2019年6月刊<br />Vol. 4, No. 1</h2>
-                                <ul class="mb-3">
-                                    <li>第11屆發展研究年會</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2019年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2019年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V4N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V4N1.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V4N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 4, No. 1" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2019年6月刊<br />Vol. 4, No. 1</h2>
+                                    <ul class="mb-3">
+                                        <li>第11屆發展研究年會</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2019年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2019年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V4N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V3N2.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V3N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 3, No. 2" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2018年12月刊<br />Vol. 3, No. 2</h2>
-                                <ul class="mb-3">
-                                    <li>2018年會成果</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2018年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2018年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V3N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V3N2.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V3N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 3, No. 2" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2018年12月刊<br />Vol. 3, No. 2</h2>
+                                    <ul class="mb-3">
+                                        <li>2018年會成果</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2018年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2018年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V3N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V3N1.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V3N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 3, No. 1" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2018年6月刊<br />Vol. 3, No. 1</h2>
-                                <ul class="mb-3">
-                                    <li>第10屆發展研究年會</li>
-                                    <li>恭喜湯京平老師當選新任理事長</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2018年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2018年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V3N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V3N1.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V3N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 3, No. 1" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2018年6月刊<br />Vol. 3, No. 1</h2>
+                                    <ul class="mb-3">
+                                        <li>第10屆發展研究年會</li>
+                                        <li>恭喜湯京平老師當選新任理事長</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2018年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2018年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V3N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V2N2.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V2N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 2, No. 2" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2017年12月刊<br />Vol. 2, No. 2</h2>
-                                <ul class="mb-3">
-                                    <li>2017年年會成果</li>
-                                    <li>「發展研究」被列為單獨細學類</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2017年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2017年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V2N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V2N2.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V2N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 2, No. 2" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2017年12月刊<br />Vol. 2, No. 2</h2>
+                                    <ul class="mb-3">
+                                        <li>2017年年會成果</li>
+                                        <li>「發展研究」被列為單獨細學類</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2017年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2017年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V2N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V2N1.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V2N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 2, No. 1" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2017年6月刊<br />Vol. 2, No. 1</h2>
-                                <ul class="mb-3">
-                                    <li>2017年年會訊息</li>
-                                    <li>《發展研究與當代台灣社會》新書發表會</li>
-                                    <li>會員執行中科技部計畫</li>
-                                    <li>會員2017年年度學術貢獻</li>
-                                    <li>發展研究在台灣的碩博士論文名錄</li>
-                                    <li>2017年發展研究相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V2N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V2N1.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V2N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 2, No. 1" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2017年6月刊<br />Vol. 2, No. 1</h2>
+                                    <ul class="mb-3">
+                                        <li>2017年年會訊息</li>
+                                        <li>《發展研究與當代台灣社會》新書發表會</li>
+                                        <li>會員執行中科技部計畫</li>
+                                        <li>會員2017年年度學術貢獻</li>
+                                        <li>發展研究在台灣的碩博士論文名錄</li>
+                                        <li>2017年發展研究相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V2N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V1N2.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V1N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 1, No. 2" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2016年12月刊<br />Vol. 1, No. 2</h2>
-                                <ul class="mb-3">
-                                    <li>2017年年會訊息</li>
-                                    <li>《發展研究與當代台灣社會》新書發表會</li>
-                                    <li>會員動態</li>
-                                    <li>發展學研究在台灣的碩博士論文名錄</li>
-                                    <li>2016年發展學相關期刊文選</li>
-                                </ul>
-                                <a href="~/static/newsletter/V1N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
-                    </div>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V1N2.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V1N2.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 1, No. 2" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2016年12月刊<br />Vol. 1, No. 2</h2>
+                                    <ul class="mb-3">
+                                        <li>2017年年會訊息</li>
+                                        <li>《發展研究與當代台灣社會》新書發表會</li>
+                                        <li>會員動態</li>
+                                        <li>發展學研究在台灣的碩博士論文名錄</li>
+                                        <li>2016年發展學相關期刊文選</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V1N2.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="col-md-4 col-lg-3">
-                        <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
-                            <div class="post-image">
-                                <a href="~/static/newsletter/V1N1.pdf" target="_blank">
-                                    <img src="~/img/newsletter_cover/V1N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 1, No. 1" />
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2016年6月刊<br />Vol. 1, No. 1</h2>
-                                <ul class="mb-3">
-                                    <li>本年度（2016年）年會訊息</li>
-                                    <li>前一年（2015年）年會成果</li>
-                                    <li>會員動態</li>
-                                    <li>發展學研究在台灣的碩博士論文名錄</li>
-                                    <li>發展學研究在台灣的相關課程</li>
-                                </ul>
-                                <a href="~/static/newsletter/V1N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
-                            </div>
-                        </article>
+                        <div class="col-md-4 col-lg-3">
+                            <article class="post post-medium border-0 pb-0" style="margin-bottom:4.5rem;">
+                                <div class="post-image">
+                                    <a href="~/static/newsletter/V1N1.pdf" target="_blank">
+                                        <img src="~/img/newsletter_cover/V1N1.jpg" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" style="border:1px solid #000;width:80%;" alt="會訊 Vol. 1, No. 1" />
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2" style="color:#c69d66;">會訊 2016年6月刊<br />Vol. 1, No. 1</h2>
+                                    <ul class="mb-3">
+                                        <li>本年度（2016年）年會訊息</li>
+                                        <li>前一年（2015年）年會成果</li>
+                                        <li>會員動態</li>
+                                        <li>發展學研究在台灣的碩博士論文名錄</li>
+                                        <li>發展學研究在台灣的相關課程</li>
+                                    </ul>
+                                    <a href="~/static/newsletter/V1N1.pdf" download class="btn text-1 text-uppercase" style="background-color:#a08a5d;color:#000;">Download 下載</a>
+                                </div>
+                            </article>
+                        </div>
+
                     </div>
 
                 </div>
-
-            </div>
+            }
         </div>
     </div>
 </div>

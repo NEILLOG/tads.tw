@@ -72,14 +72,21 @@
         </a>
     </li>
 
-    @* 內頁管理（暫時隱藏）
+    <!-- Nav Item - 關於我們管理 -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="@Url.Action("Edit", "AboutManage")">
+            <i class="fas fa-fw fa-address-card"></i>
+            <span>關於我們管理</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - 內頁管理 -->
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("List", "PageContent")">
             <i class="fas fa-fw fa-file-alt"></i>
             <span>內頁管理</span>
         </a>
     </li>
-    *@
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

@@ -34,6 +34,8 @@ builder.Services.AddScoped<NewsService>();
 builder.Services.AddScoped<MemberResearchService>();
 builder.Services.AddScoped<BannerService>();
 builder.Services.AddScoped<AnnualMeetingService>();
+builder.Services.AddScoped<PageContentService>();
+builder.Services.AddScoped<AboutContentService>();
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<UserService>();
 
@@ -47,6 +49,10 @@ using (var scope = app.Services.CreateScope())
 
     var userService = scope.ServiceProvider.GetRequiredService<UserService>();
     await userService.EnsureDefaultUser("admin", "admin123", "系統管理員");
+
+    // 植入固定內頁的預設內容（冪等）
+    TADS_Web.Service.Seed.PageContentSeeder.Seed(db, app.Environment.ContentRootPath);
+    TADS_Web.Service.Seed.AboutContentSeeder.Seed(db, app.Environment.ContentRootPath);
 }
 
 if (!app.Environment.IsDevelopment())

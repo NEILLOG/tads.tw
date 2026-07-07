@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TADS_Web.Models.DB;
 
@@ -10,137 +11,14 @@ using TADS_Web.Models.DB;
 namespace TADS_Web.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20260706160402_AddTbPageContent")]
+    partial class AddTbPageContent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
-
-            modelBuilder.Entity("TADS_Web.Models.DB.TbAboutContent", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BoardDirectors")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BoardExecDirectors")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BoardExecSecretary")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BoardExecSupervisor")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BoardPresident")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BoardSecretaryGeneral")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BoardSupervisors")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("BoardTermNo")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("BoardVicePresident")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConstitutionPdfFileId")
-                        .HasMaxLength(15)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConstitutionText")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CreateUser")
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntroDetail")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntroImageFileId")
-                        .HasMaxLength(15)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntroNameEn")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntroNameZh")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IntroSummary")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MemberResearchDesc")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MembershipInviteEn")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("MembershipInviteZh")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ModifyUser")
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OrgChartFileId")
-                        .HasMaxLength(15)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PastBoardListUrl")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id")
-                        .HasName("PK_TbAboutContent");
-
-                    b.ToTable("TbAboutContent");
-                });
-
-            modelBuilder.Entity("TADS_Web.Models.DB.TbAboutPricing", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DescEn")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DescZh")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NameEn")
-                        .HasMaxLength(150)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NameZh")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Price")
-                        .HasMaxLength(30)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id")
-                        .HasName("PK_TbAboutPricing");
-
-                    b.ToTable("TbAboutPricing");
-                });
 
             modelBuilder.Entity("TADS_Web.Models.DB.TbAnnualMeeting", b =>
                 {
