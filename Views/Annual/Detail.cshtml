@@ -1,0 +1,70 @@
+@model TADS_Web.Models.DB.TbAnnualMeeting
+@{
+    Layout = "_LayoutInner";
+    ViewData["Title"] = Model.Title + " 歷屆年會";
+    ViewData["PageTitle"] = Model.Title;
+    ViewData["BreadcrumbCurrent"] = Model.Title;
+}
+
+<style>
+    .am-detail {
+        line-height: 1.9em;
+    }
+
+    .am-detail .am-content {
+        word-wrap: break-word;
+    }
+
+    /* 內文表格（議程表）RWD：可橫向捲動，不撐破版面 */
+    .am-detail .am-content table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1.5rem;
+        border-collapse: collapse;
+    }
+
+    .am-detail .am-content table th,
+    .am-detail .am-content table td {
+        border: 1px solid #dee2e6;
+        padding: 8px 10px;
+        vertical-align: top;
+    }
+
+    .am-detail .am-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* 讓寬表格在小螢幕可橫向捲動 */
+    .am-detail .am-content .table-scroll,
+    .am-detail .am-content {
+        overflow-x: auto;
+    }
+</style>
+
+<section class="section section-default section-no-border my-0">
+    <div class="container py-5 am-detail">
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <a href="@Url.Action("History", "Annual")" onclick="if (document.referrer) { history.back(); return false; }" class="btn btn-light text-1 text-uppercase">&laquo; 返回歷屆年會</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h1 class="font-merriweather mb-4">@Model.Title</h1>
+                <div class="am-content font-noto-sans-tc text-dark">
+                    @Html.Raw(Model.Contents)
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <a href="@Url.Action("History", "Annual")" onclick="if (document.referrer) { history.back(); return false; }" class="btn btn-light text-1 text-uppercase">&laquo; 返回歷屆年會</a>
+            </div>
+        </div>
+
+    </div>
+</section>

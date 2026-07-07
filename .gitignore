@@ -24,3 +24,7 @@ wwwroot/upload/
 
 ## Misc
 以文會友/
+
+# Publish output (large file, exclude from git)
+publish.zip
+*.zip
