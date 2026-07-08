@@ -40,6 +40,23 @@
                     <small class="text-muted">可插入表格、文字、圖片；圖片可直接貼上或使用工具列上傳。</small>
                 </div>
 
+                <div class="col-12 form-group mb-3">
+                    <label class="form-label">附加檔案：</label>
+                    @if (!string.IsNullOrEmpty(Model.FileUrl))
+                    {
+                        <div class="mb-2">
+                            <a href="@Model.FileUrl" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-download"></i> @(string.IsNullOrEmpty(Model.FileName) ? "下載現有檔案" : Model.FileName)
+                            </a>
+                            <label class="ms-3 text-danger">
+                                <input type="checkbox" name="DelFileList" value="@Model.AnnualMeetingItem.FileId" /> 刪除現有檔案
+                            </label>
+                        </div>
+                    }
+                    <input type="file" name="AnnualFile" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.png,.jpg,.jpeg" />
+                    <small class="text-muted">若要更換檔案，直接選擇新檔案即可（會覆蓋原檔案）。</small>
+                </div>
+
                 @Html.HiddenFor(x => x.AnnualMeetingItem.Id)
             </div>
         </div>

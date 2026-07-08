@@ -68,6 +68,6 @@
     @* 由 PartialSectionScriptsAsync 註冊的腳本（例如 _Pagination 分頁工具），需在 jQuery 之後輸出 *@
     @Html.RenderPartialSectionScriptsAsync()
 
-    @RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

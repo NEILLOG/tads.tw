@@ -40,6 +40,12 @@
                     @Html.TextAreaFor(x => x.AnnualMeetingItem.Contents, new { @class = "form-control", rows = "12", id = "Contents" })
                     <small class="text-muted">可插入表格、文字、圖片；圖片可直接貼上或使用工具列上傳。</small>
                 </div>
+
+                <div class="col-12 form-group mb-3">
+                    <label class="form-label">附加檔案：</label>
+                    <input type="file" name="AnnualFile" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.png,.jpg,.jpeg" />
+                    <small class="text-muted">可上傳 PDF、Word、Excel、PowerPoint、圖片或壓縮檔。</small>
+                </div>
             </div>
         </div>
     </div>

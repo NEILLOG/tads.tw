@@ -45,7 +45,9 @@ namespace TADS_Web.Controllers
             {
                 IQueryable<TbPageContent>? dataList = _pageContentService.GetList(ref _message);
                 if (dataList != null)
-                    data.PageContentList = dataList.OrderBy(x => x.PageName).ToList();
+                    data.PageContentList = dataList
+                        .Where(x => !x.PageCode.StartsWith("AnnualCurrent"))   // 本屆年會區塊改由「本屆年會管理」單頁編輯
+                        .OrderBy(x => x.PageName).ToList();
 
                 await _commonService.OperateLog(userinfo.UserID, Feature, Action, null, data);
             }

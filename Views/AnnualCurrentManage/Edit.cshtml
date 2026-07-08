@@ -1,0 +1,185 @@
+@model TADS_Web.Models.VM_AnnualCurrentContent
+@{
+    ViewData["Title"] = "本屆年會管理";
+}
+
+<style>
+    .annual-section-title { border-left: 4px solid #4e73df; padding-left: 10px; }
+    .file-current { font-size: .85rem; }
+</style>
+
+<form id="frm" method="post" asp-controller="AnnualCurrentManage" asp-action="Edit" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">本屆年會管理</h1>
+        <div>
+            <a class="btn btn-light" href="@Url.Action("Current", "Annual")" target="_blank">前台預覽</a>
+            <button type="submit" class="btn btn-primary">儲存</button>
+        </div>
+    </div>
+
+    <div class="alert alert-info py-2 mb-4">
+        <i class="fas fa-info-circle"></i>
+        此處內容同時顯示於「首頁」與「發展研究年會（本屆）」兩個前台頁面，儲存後兩頁同步更新；版面外框與樣式（CSS）為固定，僅內容區塊開放編輯。
+    </div>
+
+    <!-- ===== 最上方介紹 ===== -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary annual-section-title">最上方介紹（年會主題、日期、主辦單位）</h6></div>
+        <div class="card-body">
+            <div class="form-group mb-0">
+                @Html.TextAreaFor(x => x.IntroHtml, new { @class = "form-control", rows = "14", id = "IntroHtml" })
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 徵稿主題介紹 ===== -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary annual-section-title">A. 徵稿主題介紹</h6></div>
+        <div class="card-body">
+            <div class="form-group mb-0">
+                @Html.TextAreaFor(x => x.TopicsHtml, new { @class = "form-control", rows = "14", id = "TopicsHtml" })
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 學位論文獎 ===== -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3"><h6 class="m-0 font-weight-bold text-primary annual-section-title">B. 學位論文獎</h6></div>
+        <div class="card-body">
+            <div class="form-group mb-3">
+                @Html.TextAreaFor(x => x.AwardHtml, new { @class = "form-control", rows = "8", id = "AwardHtml" })
+            </div>
+            <div class="form-group mb-0">
+                <label class="form-label font-weight-bold">下載檔案（PDF，上傳新檔即覆蓋；前台「下載檔案」按鈕會連到此檔）</label>
+                @if (!string.IsNullOrEmpty(Model?.AwardFileUrl))
+                {
+                    <div class="file-current mb-2">
+                        <a href="@Model.AwardFileUrl" target="_blank"><i class="fas fa-file-pdf"></i> @(Model.AwardFileName ?? "目前檔案")</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="file-current mb-2 text-muted">尚未上傳，目前使用預設檔 /static/file.pdf</div>
+                }
+                <input type="file" name="AwardFile" class="form-control" accept="application/pdf" />
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <button type="submit" class="btn btn-primary">儲存</button>
+        <a class="btn btn-light" href="@Url.Action("Current", "Annual")" target="_blank">前台預覽</a>
+    </div>
+</form>
+
+@* CKEditor 5 精簡 CDN 建置（僅開源 GPL 外掛，設定與「內頁管理」一致） *@
+@section CustomCss {
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css">
+}
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.umd.js"></script>
+    <script type="text/javascript">
+        const editors = {};
+
+        // 自訂圖片上傳轉接器（沿用內頁管理的 UploadImage，回傳 { url }）
+        const CK_UPLOAD_URL = '@Url.Action("UploadImage", "PageContent")';
+
+        class PageContentUploadAdapter {
+            constructor(loader) {
+                this.loader = loader;
+            }
+            upload() {
+                return this.loader.file.then(file => new Promise((resolve, reject) => {
+                    const data = new FormData();
+                    data.append('upload', file);
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', CK_UPLOAD_URL, true);
+                    xhr.responseType = 'json';
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]');
+                    if (token) xhr.setRequestHeader('X-XSRF-TOKEN', token.value);
+
+                    xhr.addEventListener('load', () => {
+                        const res = xhr.response;
+                        if (!res || res.error || !res.url) {
+                            return reject((res && res.error && res.error.message) || '圖片上傳失敗');
+                        }
+                        resolve({ default: res.url });
+                    });
+                    xhr.addEventListener('error', () => reject('圖片上傳失敗'));
+                    xhr.addEventListener('abort', () => reject());
+                    xhr.send(data);
+                }));
+            }
+            abort() { }
+        }
+
+        function PageContentUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => new PageContentUploadAdapter(loader);
+        }
+
+        $(document).ready(function () {
+            const {
+                ClassicEditor, Essentials, Paragraph, Heading,
+                Bold, Italic, Underline, Link, List, BlockQuote,
+                Table, TableToolbar, Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageUpload, AutoImage,
+                PasteFromOffice, RemoveFormat, Indent, IndentBlock,
+                SourceEditing, GeneralHtmlSupport
+            } = CKEDITOR;
+
+            const config = {
+                licenseKey: 'GPL',
+                plugins: [
+                    Essentials, Paragraph, Heading,
+                    Bold, Italic, Underline, Link, List, BlockQuote,
+                    Table, TableToolbar, Image, ImageToolbar, ImageCaption, ImageStyle, ImageResize, ImageUpload, AutoImage,
+                    PasteFromOffice, RemoveFormat, Indent, IndentBlock,
+                    SourceEditing, GeneralHtmlSupport
+                ],
+                extraPlugins: [PageContentUploadAdapterPlugin],
+                toolbar: {
+                    items: [
+                        'undo', 'redo', '|',
+                        'sourceEditing', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'underline', 'link', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'outdent', 'indent', '|',
+                        'insertTable', 'blockQuote', 'uploadImage', '|',
+                        'removeFormat'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                // General HTML Support：放行所有標籤/屬性/class/style，讓原始 HTML 與 Word 貼上更保真
+                htmlSupport: {
+                    allow: [
+                        { name: /.*/, attributes: true, classes: true, styles: true }
+                    ]
+                },
+                image: {
+                    toolbar: ['imageTextAlternative', '|', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|', 'resizeImage']
+                },
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                }
+            };
+
+            ['IntroHtml', 'TopicsHtml', 'AwardHtml'].forEach(id => {
+                ClassicEditor
+                    .create(document.querySelector('#' + id), config)
+                    .then(editor => { editors[id] = editor; })
+                    .catch(error => { console.error(error); });
+            });
+
+            // 送出前把各編輯器內容同步回 textarea
+            $('#frm').on('submit', function () {
+                Object.keys(editors).forEach(id => {
+                    document.querySelector('#' + id).value = editors[id].getData();
+                });
+            });
+        });
+    </script>
+}

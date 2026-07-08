@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sqlite3 tads_dev.db \".tables\")",
+      "Bash(echo \"exit: $?\")"
+    ]
+  }
+}

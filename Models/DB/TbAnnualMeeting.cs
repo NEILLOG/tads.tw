@@ -13,6 +13,9 @@ namespace TADS_Web.Models.DB
         /// <summary>排序（數字越小越前面）</summary>
         public int SortOrder { get; set; }
 
+        /// <summary>附加檔案（對應 TbFileInfo.FileId）</summary>
+        public string? FileId { get; set; }
+
         public bool IsDelete { get; set; }
         public bool IsPublish { get; set; }
 

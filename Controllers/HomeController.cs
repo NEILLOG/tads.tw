@@ -12,13 +12,15 @@ public class HomeController : Controller
     private readonly MemberResearchService _memberResearchService;
     private readonly NewsService _newsService;
     private readonly BannerService _bannerService;
+    private readonly PageContentService _pageContentService;
 
-    public HomeController(ILogger<HomeController> logger, MemberResearchService memberResearchService, NewsService newsService, BannerService bannerService)
+    public HomeController(ILogger<HomeController> logger, MemberResearchService memberResearchService, NewsService newsService, BannerService bannerService, PageContentService pageContentService)
     {
         _logger = logger;
         _memberResearchService = memberResearchService;
         _newsService = newsService;
         _bannerService = bannerService;
+        _pageContentService = pageContentService;
     }
 
     public IActionResult Index()
@@ -51,6 +53,9 @@ public class HomeController : Controller
             .ThenByDescending(x => x.Research.CreateDate)
             .Take(6)
             .ToList() ?? new List<MemberResearchExtend>();
+
+        // 本屆年會區塊內容（與 /Annual/Current 共用，後台「內頁管理」可編輯）
+        ViewBag.AnnualCurrentContent = _pageContentService.GetAnnualCurrentContent(ref message);
 
         return View();
     }

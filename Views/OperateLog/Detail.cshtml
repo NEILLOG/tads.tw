@@ -1,0 +1,81 @@
+@model TADS_Web.Models.VM_OperateLog
+@{
+    var item = Model.LogItem!;
+    var log = item.Log;
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary">操作紀錄明細 #@log.Pid</h6>
+                <a class="btn btn-secondary btn-sm" href="@(Url.Action("List", "OperateLog"))">返回列表</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th class="table-light" style="width: 160px;">時間</th>
+                            <td>@log.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                            <th class="table-light" style="width: 160px;">結果</th>
+                            <td>
+                                @if (log.IsSuccess)
+                                {
+                                    <span class="badge bg-success">成功</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">失敗</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">帳號</th>
+                            <td>@(item.Account ?? "-")</td>
+                            <th class="table-light">姓名</th>
+                            <td>@(item.UserName ?? "-")</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">UserId</th>
+                            <td>@log.UserId</td>
+                            <th class="table-light">資料鍵值</th>
+                            <td>@(log.DataKey ?? "-")</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">功能</th>
+                            <td>@log.Feature</td>
+                            <th class="table-light">動作</th>
+                            <td>@log.Action</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">IP</th>
+                            <td>@(log.Ip ?? "-")</td>
+                            <th class="table-light">訊息</th>
+                            <td>@(log.Message ?? "-")</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">URL</th>
+                            <td colspan="3" style="word-break: break-all;">@(log.Url ?? "-")</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">User-Agent</th>
+                            <td colspan="3" style="word-break: break-all;">@(log.UserAgent ?? "-")</td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">Request</th>
+                            <td colspan="3">
+                                <pre class="bg-light border rounded p-2 mb-0" style="max-height: 400px; overflow: auto; white-space: pre-wrap; word-break: break-all;">@(string.IsNullOrEmpty(log.Request) ? "-" : log.Request)</pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="table-light">Response</th>
+                            <td colspan="3">
+                                <pre class="bg-light border rounded p-2 mb-0" style="max-height: 400px; overflow: auto; white-space: pre-wrap; word-break: break-all;">@(string.IsNullOrEmpty(log.Response) ? "-" : log.Response)</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

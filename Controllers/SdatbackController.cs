@@ -9,12 +9,15 @@ namespace TADS_Web.Controllers
     public class SdatbackController : Controller
     {
         private readonly AllCommonService _allCommonService;
+        private readonly CommonService _commonService;
         private readonly UserService _userService;
 
         public SdatbackController(AllCommonService allCommonService,
+                                  CommonService commonService,
                                   UserService userService)
         {
             _allCommonService = allCommonService;
+            _commonService = commonService;
             _userService = userService;
         }
 
@@ -60,6 +63,7 @@ namespace TADS_Web.Controllers
             if (user == null)
             {
                 await _allCommonService.LoginRecord("Backend", "登入失敗", email);
+                await _commonService.OperateLog("anonymous", "後台登入", "登入", email, email, "帳號或密碼錯誤", IsSuccess: false);
                 TempData["LoginError"] = "帳號或密碼錯誤";
                 return View();
             }
@@ -72,12 +76,17 @@ namespace TADS_Web.Controllers
 
             await _userService.UpdateLastLoginTime(user);
             await _allCommonService.LoginRecord("Backend", "登入成功", email, user.Pid.ToString());
+            await _commonService.OperateLog(user.Pid.ToString(), "後台登入", "登入", email, email, IsSuccess: true);
 
             return RedirectToAction("Welcome");
         }
 
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            UserSessionModel? userinfo = GetUserInfo();
+            if (userinfo != null)
+                await _commonService.OperateLog(userinfo.UserID, "後台登入", "登出", userinfo.UserID, userinfo.UserName, IsSuccess: true);
+
             HttpContext.Session.Remove(SessionStruct.Login.UserInfo);
             return RedirectToAction("Login");
         }

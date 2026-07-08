@@ -16,6 +16,10 @@ namespace TADS_Web.Service.Seed
             ("DevelopmentDynamics", "發展學領域動態 Development Dynamics"),
             ("RelevantLinks", "相關連結 Relevant Links"),
             ("Newsletters", "學會通訊 Newsletters"),
+            // 本屆年會區塊：首頁與 /Annual/Current 共用同一份內容
+            ("AnnualCurrent_Intro", "本屆年會1－最上方介紹"),
+            ("AnnualCurrent_Topics", "本屆年會2－徵稿主題介紹"),
+            ("AnnualCurrent_Award", "本屆年會3－學位論文獎"),
         };
 
         public static void Seed(DBContext db, string contentRootPath)

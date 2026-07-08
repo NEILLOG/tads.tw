@@ -1,0 +1,117 @@
+@model TADS_Web.Models.VM_OperateLog
+
+@section Scripts {
+    <script type="text/javascript">
+        function clearSearch() {
+            $('#Search_sAccount').val('');
+            document.getElementById("Search_sFeature").selectedIndex = 0;
+            $('#Search_sAction').val('');
+            document.getElementById("Search_sResult").selectedIndex = 0;
+            $('#Search_sTime').val('');
+            $('#Search_eTime').val('');
+        }
+    </script>
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <form id="frm" method="get" asp-controller="OperateLog" asp-action="List" autocomplete="off">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_iPageIndex, new { @class = "hiddenCurrentPage" })
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_iPageCount, new { @class = "hiddenPageCount" })
+                    @Html.HiddenFor(x => x.Search.PagerInfo.m_Search, new { @class = "pager-Info-Search" })
+
+                    <div class="row g-3 mb-3 align-items-end">
+                        <div class="col-12 col-md-auto">
+                            <div class="input-group">
+                                @Html.LabelFor(x => x.Search.sAccount, "帳號/姓名", new { @class = "input-group-text" })
+                                @Html.TextBoxFor(x => x.Search.sAccount, new { @class = "form-control", placeholder = "帳號或姓名", type = "text", id = "Search_sAccount" })
+
+                                @Html.LabelFor(x => x.Search.sFeature, "功能", new { @class = "input-group-text" })
+                                @Html.DropDownListFor(x => x.Search.sFeature, Model.ddlFeature, new { @class = "form-control", id = "Search_sFeature" })
+
+                                @Html.LabelFor(x => x.Search.sAction, "動作", new { @class = "input-group-text" })
+                                @Html.TextBoxFor(x => x.Search.sAction, new { @class = "form-control", placeholder = "動作關鍵字", type = "text", id = "Search_sAction" })
+
+                                @Html.LabelFor(x => x.Search.sResult, "結果", new { @class = "input-group-text" })
+                                @Html.DropDownListFor(x => x.Search.sResult, Model.ddlResult, new { @class = "form-control", id = "Search_sResult" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3 align-items-end">
+                        <div class="col-12 col-md-auto">
+                            <div class="input-group">
+                                @Html.LabelFor(x => x.Search.sTime, "時間區間", new { @class = "input-group-text" })
+                                @Html.TextBoxFor(x => x.Search.sTime, new { @class = "form-control", type = "date", id = "Search_sTime" })
+                                @Html.TextBoxFor(x => x.Search.eTime, new { @class = "form-control", type = "date", id = "Search_eTime" })
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <button type="button" class="btn btn-danger" onclick="clearSearch()">清除</button>
+                            <button type="submit" class="btn btn-primary">查詢</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>項次</th>
+                                <th>時間</th>
+                                <th>帳號</th>
+                                <th>姓名</th>
+                                <th>功能</th>
+                                <th>動作</th>
+                                <th>結果</th>
+                                <th>IP</th>
+                                <th>管理</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model?.LogList != null && Model.LogList.Count > 0)
+                            {
+                                foreach (var item in Model.LogList)
+                                {
+                                    <tr>
+                                        <td>@(Model.LogList.IndexOf(item) + 1)</td>
+                                        <td>@item.Log.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                        <td>@(item.Account ?? item.Log.UserId)</td>
+                                        <td>@(item.UserName ?? "-")</td>
+                                        <td>@item.Log.Feature</td>
+                                        <td>@item.Log.Action</td>
+                                        <td>
+                                            @if (item.Log.IsSuccess)
+                                            {
+                                                <span class="badge bg-success">成功</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">失敗</span>
+                                            }
+                                        </td>
+                                        <td>@item.Log.Ip</td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm" href="@(Url.Action("Detail", "OperateLog", new { id = item.Log.Pid }))">明細</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="9">目前暫無資料</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @if (Model?.LogList != null && Model.LogList.Count > 0)
+                {
+                    @await Html.PartialAsync("_Pagination", Model.Search.PagerInfo)
+                }
+            </div>
+        </div>
+    </div>
+</div>

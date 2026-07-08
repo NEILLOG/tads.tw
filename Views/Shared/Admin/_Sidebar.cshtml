@@ -56,6 +56,14 @@
         </a>
     </li>
 
+    <!-- Nav Item - 本屆年會管理 -->
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("Edit", "AnnualCurrentManage")">
+            <i class="fas fa-fw fa-calendar-check"></i>
+            <span>本屆年會管理</span>
+        </a>
+    </li>
+
     <!-- Nav Item - 歷屆年會管理 -->
     <li class="nav-item">
         <a class="nav-link" href="@Url.Action("List", "AnnualMeeting")">
@@ -85,6 +93,22 @@
         <a class="nav-link" href="@Url.Action("List", "PageContent")">
             <i class="fas fa-fw fa-file-alt"></i>
             <span>內頁管理</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        系統
+    </div>
+
+    <!-- Nav Item - 操作紀錄查詢 -->
+    <li class="nav-item">
+        <a class="nav-link" href="@Url.Action("List", "OperateLog")">
+            <i class="fas fa-fw fa-history"></i>
+            <span>操作紀錄查詢</span>
         </a>
     </li>
 

@@ -38,6 +38,7 @@ builder.Services.AddScoped<PageContentService>();
 builder.Services.AddScoped<AboutContentService>();
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<OperateLogService>();
 
 var app = builder.Build();
 

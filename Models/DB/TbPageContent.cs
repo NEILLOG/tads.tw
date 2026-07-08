@@ -14,6 +14,9 @@ namespace TADS_Web.Models.DB
         /// <summary>頁面內容（HTML，由 CKEditor 產生；前台以 @Html.Raw 輸出）</summary>
         public string? Contents { get; set; }
 
+        /// <summary>附加檔案（對應 TbFileInfo.FileId；例：學位論文獎下載檔）</summary>
+        public string? FileId { get; set; }
+
         public string? CreateUser { get; set; }
         public DateTime CreateDate { get; set; }
         public string? ModifyUser { get; set; }

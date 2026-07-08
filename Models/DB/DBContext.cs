@@ -64,6 +64,7 @@ namespace TADS_Web.Models.DB
             {
                 entity.Property(e => e.Id).HasMaxLength(10).HasColumnName("ID");
                 entity.Property(e => e.Title).HasMaxLength(200);
+                entity.Property(e => e.FileId).HasMaxLength(15).HasColumnName("FileID");
                 entity.Property(e => e.CreateUser).HasMaxLength(10);
                 entity.Property(e => e.ModifyUser).HasMaxLength(10);
             });
@@ -73,6 +74,7 @@ namespace TADS_Web.Models.DB
                 entity.HasKey(e => e.PageCode).HasName("PK_TbPageContent");
                 entity.Property(e => e.PageCode).HasMaxLength(30);
                 entity.Property(e => e.PageName).HasMaxLength(50);
+                entity.Property(e => e.FileId).HasMaxLength(15).HasColumnName("FileID");
                 entity.Property(e => e.CreateUser).HasMaxLength(10);
                 entity.Property(e => e.ModifyUser).HasMaxLength(10);
             });

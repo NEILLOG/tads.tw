@@ -103,6 +103,15 @@ namespace TADS_Web.Controllers
                     {
                         try
                         {
+                            if (datapost.AnnualFile != null)
+                            {
+                                var file_upload = await _fileService.FileUploadAsync(datapost.AnnualFile, "AnnualMeetingFiles/" + item.Id, "AnnualMeetingFiles", item.FileId, null, transaction);
+                                if (file_upload.IsSuccess == true && !string.IsNullOrEmpty(file_upload.FileID))
+                                    item.FileId = file_upload.FileID;
+                                else
+                                    _message += file_upload.Message;
+                            }
+
                             await _annualMeetingService.Insert(item, transaction);
                             transaction.Commit();
                             isSuccess = true;
@@ -166,12 +175,17 @@ namespace TADS_Web.Controllers
                 }
                 else
                 {
-                    IQueryable<TbAnnualMeeting>? dataList = _annualMeetingService.GetItem(ref _message, id);
+                    IQueryable<TADS_Web.Models.Extend.AnnualMeetingExtend>? dataList = _annualMeetingService.GetItemExtend(ref _message, id);
                     if (dataList != null)
                     {
-                        data.AnnualMeetingItem = dataList.FirstOrDefault();
-                        if (data.AnnualMeetingItem != null)
-                            data.isPublish = data.AnnualMeetingItem.IsPublish ? "上架" : "下架";
+                        var extend = dataList.FirstOrDefault();
+                        if (extend != null)
+                        {
+                            data.AnnualMeetingItem = extend.AnnualMeeting;
+                            data.FileUrl = extend.FileUrl;
+                            data.FileName = extend.FileName;
+                            data.isPublish = extend.AnnualMeeting.IsPublish ? "上架" : "下架";
+                        }
                     }
 
                     if (data.AnnualMeetingItem == null)
@@ -246,6 +260,20 @@ namespace TADS_Web.Controllers
                         {
                             try
                             {
+                                if (datapost.AnnualFile != null)
+                                {
+                                    var file_upload = await _fileService.FileUploadAsync(datapost.AnnualFile, "AnnualMeetingFiles/" + item.Id, "AnnualMeetingFiles", item.FileId, null, transaction);
+                                    if (file_upload.IsSuccess == true && !string.IsNullOrEmpty(file_upload.FileID))
+                                        item.FileId = file_upload.FileID;
+                                    else
+                                        _message += file_upload.Message;
+                                }
+                                else if (datapost.DelFileList != null && datapost.DelFileList.Count > 0)
+                                {
+                                    await _fileService.FileDelete(datapost.DelFileList);
+                                    item.FileId = "";
+                                }
+
                                 await _annualMeetingService.Update(item, transaction);
                                 transaction.Commit();
                                 isSuccess = true;
