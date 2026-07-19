@@ -1,1 +1,4 @@
 #mainNav li a { line-height: normal; padding-bottom: 20px !important; }
+
+/* 錨點連結目標：避開固定頁首遮擋 (例如 /RelevantLinks#research-institutes) */
+.scroll-anchor { scroll-margin-top: 130px; }
