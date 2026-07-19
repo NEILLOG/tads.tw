@@ -11,5 +11,6 @@ namespace TADS_Web.Models
         public string? IntroImageUrl { get; set; }
         public string? OrgChartUrl { get; set; }
         public string? ConstitutionPdfUrl { get; set; }
+        public string? MembershipFormUrl { get; set; }
     }
 }

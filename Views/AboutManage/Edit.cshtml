@@ -118,6 +118,18 @@
                     <label class="form-label">英文邀請文</label>
                     <textarea asp-for="AboutItem.MembershipInviteEn" class="form-control" rows="6"></textarea>
                 </div>
+                <div class="col-12 form-group mb-0">
+                    <label class="form-label">入會申請表下載檔（PDF 或 Word，上傳新檔即覆蓋；顯示於前台會費價目表下方）</label>
+                    @if (!string.IsNullOrEmpty(Model.MembershipFormUrl))
+                    {
+                        <div class="file-current mb-2"><a href="@Model.MembershipFormUrl" target="_blank"><i class="fas fa-file-arrow-down"></i> 目前檔案</a></div>
+                    }
+                    else
+                    {
+                        <div class="file-current mb-2 text-muted">尚未上傳檔案，前台暫不顯示下載按鈕</div>
+                    }
+                    <input type="file" name="MembershipFormFile" class="form-control" accept=".pdf,.doc,.docx" />
+                </div>
             </div>
         </div>
     </div>

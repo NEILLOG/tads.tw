@@ -57,6 +57,7 @@ namespace TADS_Web.Controllers
                 data.IntroImageUrl = FileUrl(data.AboutItem.IntroImageFileId);
                 data.OrgChartUrl = FileUrl(data.AboutItem.OrgChartFileId);
                 data.ConstitutionPdfUrl = FileUrl(data.AboutItem.ConstitutionPdfFileId);
+                data.MembershipFormUrl = FileUrl(data.AboutItem.MembershipFormFileId);
 
                 await _commonService.OperateLog(userinfo.UserID, Feature, Action, AboutContentService.AboutId, AboutContentService.AboutId);
             }
@@ -74,7 +75,7 @@ namespace TADS_Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(VM_AboutContent datapost,
-            IFormFile? IntroImageFile, IFormFile? OrgChartFile, IFormFile? ConstitutionPdfFile)
+            IFormFile? IntroImageFile, IFormFile? OrgChartFile, IFormFile? ConstitutionPdfFile, IFormFile? MembershipFormFile)
         {
             UserSessionModel userinfo = GetUserInfo();
             string Feature = "關於我們管理", Action = "編輯";
@@ -124,6 +125,8 @@ namespace TADS_Web.Controllers
                     if (orgUp != null) item.OrgChartFileId = orgUp;
                     var pdfUp = await HandleUpload(ConstitutionPdfFile, new[] { ".pdf" }, "About-ConstitutionPdf", item.ConstitutionPdfFileId, v => fileErr = v);
                     if (pdfUp != null) item.ConstitutionPdfFileId = pdfUp;
+                    var formUp = await HandleUpload(MembershipFormFile, new[] { ".pdf", ".doc", ".docx" }, "About-MembershipForm", item.MembershipFormFileId, v => fileErr = v);
+                    if (formUp != null) item.MembershipFormFileId = formUp;
 
                     item.ModifyUser = userinfo.UserID;
                     item.ModifyDate = dtnow;

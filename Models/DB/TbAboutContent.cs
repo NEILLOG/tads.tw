@@ -39,6 +39,8 @@ namespace TADS_Web.Models.DB
         // === Membership Application 入會申請 ===
         public string? MembershipInviteZh { get; set; }
         public string? MembershipInviteEn { get; set; }
+        /// <summary>入會申請表下載檔（FileId，上傳覆蓋）</summary>
+        public string? MembershipFormFileId { get; set; }
 
         // === Constitution 章程 ===
         /// <summary>章程內文（純文字，保留換行）</summary>

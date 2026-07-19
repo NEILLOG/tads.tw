@@ -446,8 +446,8 @@
     };
 }
 
-<section class="section section-default section-no-border my-0" style="padding-top: 0;">
-    <div class="container pt-0 pb-4">
+<section class="section section-default section-no-border my-0" style="padding-top: 0; padding-bottom: 0;">
+    <div class="container pt-0 pb-3">
 
         <div class="fee-pricing row font-noto-sans-tc">
 
@@ -479,6 +479,41 @@
                 </div>
             }
 
+        </div>
+    </div>
+</section>
+
+<!-- Membership Application Form 入會申請表下載 -->
+<section class="section section-default section-no-border my-0" style="padding-top: 0; padding-bottom: 0;">
+    <div class="container pt-0 pb-3">
+        <div class="row">
+            <div class="col-12">
+                <div class="p-3 p-lg-4" style="background-color: #f7f7f7; border-radius: 6px;">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8 mb-2 mb-lg-0">
+                            <h4 class="font-noto-serif-tc font-weight-bold text-primary mb-1">
+                                <i class="fas fa-file-arrow-down me-2"></i>入會申請表下載
+                            </h4>
+                            <p class="font-noto-sans-tc text-dark mb-0" style="line-height: 1.6em;">
+                                歡迎加入台灣發展研究學會！請下載入會申請表，填妥基本資料與相關文件後，依表單指示完成申請程序。
+                            </p>
+                        </div>
+                        <div class="col-lg-4 d-flex justify-content-lg-end">
+                            @if (!string.IsNullOrEmpty(Model.MembershipFormUrl))
+                            {
+                                <a href="@Model.MembershipFormUrl" target="_blank" rel="noopener noreferrer"
+                                   class="btn btn-primary btn-modern font-noto-serif-tc font-weight-bold">
+                                    Download 下載
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="font-noto-sans-tc text-muted">申請表準備中，敬請期待</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -86,6 +86,7 @@ namespace TADS_Web.Models.DB
                 entity.Property(e => e.IntroImageFileId).HasMaxLength(15);
                 entity.Property(e => e.OrgChartFileId).HasMaxLength(15);
                 entity.Property(e => e.ConstitutionPdfFileId).HasMaxLength(15);
+                entity.Property(e => e.MembershipFormFileId).HasMaxLength(15);
                 entity.Property(e => e.CreateUser).HasMaxLength(10);
                 entity.Property(e => e.ModifyUser).HasMaxLength(10);
             });

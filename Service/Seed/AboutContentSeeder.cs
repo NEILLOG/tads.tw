@@ -39,6 +39,7 @@ namespace TADS_Web.Service.Seed
 
                     MembershipInviteZh = "誠摯邀請您加入「台灣發展研究學會（TADS）」！本會致力於推動國內外發展議題的學術對話與政策實踐。成為會員後，您將能優先參與年度研討會、掌握最新研究動態，並與跨領域的頂尖學者及實務工作者建立緊密的專業網絡。無論您是學者、學生或關注發展議題的專業人士，我們都歡迎您攜手共進，為全球永續發展貢獻心力。立即申請入會，擴大您的學術與社會影響力！",
                     MembershipInviteEn = "We cordially invite you to join the Taiwanese Association for Development Studies (TADS)! As Taiwan's first national academic society dedicated to development studies, our vision has expanded from macroeconomic perspectives to the sustainable coexistence of individuals, communities, and the environment. TADS serves as a premier cross-disciplinary platform, connecting leading scholars and practitioners through our benchmark annual conferences. Whether you are focused on pioneering theory or local practice, we welcome you to join us in inspiring innovative solutions, building international networks, and contributing to the sustainable development of contemporary society!",
+                    MembershipFormFileId = null,
 
                     ConstitutionText = ReadSeedText(contentRootPath, "Constitution.txt"),
                     ConstitutionPdfFileId = null,

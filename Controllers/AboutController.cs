@@ -33,6 +33,7 @@ namespace TADS_Web.Controllers
             data.IntroImageUrl = FileUrl(data.AboutItem.IntroImageFileId) ?? "/img/about_fig.jpg";
             data.OrgChartUrl = FileUrl(data.AboutItem.OrgChartFileId) ?? "/img/Organizational_Structure.png";
             data.ConstitutionPdfUrl = FileUrl(data.AboutItem.ConstitutionPdfFileId) ?? "/static/Constitution.1081025.pdf";
+            data.MembershipFormUrl = FileUrl(data.AboutItem.MembershipFormFileId);
 
             return View(data);
         }
